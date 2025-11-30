@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Paulo Coelho - Fable</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .author-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 40px 20px;
+        }
+
+        .author-heading {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            letter-spacing: 0.5px;
+        }
+
+        .author-bio {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .book-title {
+            font-style: italic;
+            color: #2c3e50;
+        }
+
+        .view-profile-btn {
+            display: inline-block;
+            padding: 14px 50px;
+            border: 2px solid #1a1a1a;
+            border-radius: 50px;
+            background-color: transparent;
+            color: #1a1a1a;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .view-profile-btn:hover {
+            background-color: #1a1a1a;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 768px) {
+            .author-section {
+                margin: 30px auto;
+                padding: 20px 15px;
+            }
+
+            .author-heading {
+                font-size: 26px;
+            }
+
+            .author-bio {
+                font-size: 15px;
+                text-align: left;
+            }
+
+            .view-profile-btn {
+                padding: 12px 40px;
+                width: 100%;
+            }
+        }
+
+        /* Additional styling for consistency */
+        .text-highlight {
+            background-color: #fff9e6;
+            padding: 2px 4px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="author-section">
+            <h2 class="author-heading">About Paulo Coelho</h2>
+            
+            <div class="author-content">
+                <p class="author-bio">
+                    One of the most influential writers of our time, <span class="author-name">Paulo Coelho</span> is the author of thirty international bestsellers, including <span class="book-title">The Alchemist, Warrior of the Light</span>, <span class="book-title">Brida, Veronika Decides to Die,</span> and <span class="book-title">Eleven Minutes</span>. He is a member of the Brazilian Academy of Letters and a United Nations Messenger of Peace. Paulo is the recipient of 115 international prizes and awards, among them, the Chevalier de l'Ordre National de la Légion d'Honneur (Legion of Honor). Born in Rio de Janeiro in 1947, he soon discovered his vocation for writing. He worked as a director, theater actor, songwriter, and journalist. In 1986, a special meeting led him to make the pilgrimage to Saint James Compostela (in Spain). <span class="book-title">The Road to Santiago</span> was not only a common pilgrimage but a turning point in his existence. A year later, he wrote <span class="book-title">The Pilgrimage</span>, an autobiographical novel that is considered the beginning of his literary career. He lives in Geneva, Switzerland.
+                </p>
+            </div>
+
+            <div class="btn-container">
+                <a href="#" class="view-profile-btn" id="viewProfileBtn">View profile</a>
+            </div>
+
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // View Profile button functionality
+        const viewProfileBtn = document.getElementById('viewProfileBtn');
+        viewProfileBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Navigating to Paulo Coelho\'s full profile page...');
+            // In production, this would navigate to: /author/paulo-coelho
+        });
+    </script>
+</body>
+</html>

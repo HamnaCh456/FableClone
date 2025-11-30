@@ -1,0 +1,27 @@
+@model IEnumerable<MyMvcAuthProject.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h2>Books</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>BookId</th>
+            <th>Title</th>
+            <th>AuthorId</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.BookId</td>
+            <td>@book.Title</td>
+            <td>@book.AuthorId</td>
+        </tr>
+    }
+    </tbody>
+</table>

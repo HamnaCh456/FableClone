@@ -1,0 +1,242 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hoopoe Club</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .auth-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-section {
+            flex: 1;
+            background-color: #2d7a5f;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            position: relative;
+
+            background-image: url('@Url.Content("~/Images/loginIllustration.svg")');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .left-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 77, 61, 0);
+        }
+
+        .content-wrapper {
+            z-index: 2;
+            max-width: 500px;
+            text-align: center;
+            display: none;
+        }
+
+        .right-section {
+            flex: 1;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Top Tabs - Rounded Pills */
+        .tab-buttons {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2rem;
+            background: #f0f0f0;
+            padding: 6px;
+            border-radius: 50px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.7rem 1.5rem;
+            background: transparent;
+            color: #666;
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Thin rounded text fields */
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            border: 1px solid #e0e0e0;
+            height: 50px;
+            font-size: 0.95rem;
+            background: #fafafa;
+        }
+
+        .form-control:focus {
+            border-color: #a67c7c;
+            box-shadow: 0 0 0 0.2rem rgba(166, 124, 124, 0.15);
+            background: white;
+        }
+
+        .form-floating label {
+            color: #999;
+            padding-left: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Register button */
+        .btn-register {
+            width: 100%;
+            padding: 0.9rem;
+            background-color: #2d7a5f;
+            color: white;
+            font-weight: 500;
+            border-radius: 50px;
+            border: none;
+            margin-top: 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-register:hover {
+            background-color: #1a4d3d;
+        }
+
+        /* Bottom text link */
+        .bottom-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #2d7a5f;
+            font-size: 0.9rem;
+        }
+
+        .bottom-link a {
+            color: #a67c7c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .bottom-link a:hover {
+            text-decoration: underline;
+        }
+
+        .text-danger {
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+
+        <div class="left-section">
+            <div class="content-wrapper">
+                <h1>Join the reading community</h1>
+                <p>Discover new books, participate in discussions, and enjoy a unique reading experience.</p>
+                <div class="feature-list">
+                    <p>✓ Discover new books</p>
+                    <p>✓ Share your opinions and reviews</p>
+                    <p>✓ Connect with other readers</p>
+                    <p>✓ Track your readings and achievements</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="auth-card">
+
+                <h2>Welcome to Daastan Hub</h2>
+
+                <div class="tab-buttons">
+                    <a href="/Identity/Account/Login" class="tab-btn">Log in</a>
+                    <button class="tab-btn active">Create an account</button>
+                </div>
+
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control" placeholder="Email" />
+                        <label asp-for="Input.Email">user name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password" />
+                        <label asp-for="Input.Password">password</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" />
+                        <label asp-for="Input.ConfirmPassword">confirm password</label>
+                    </div>
+
+                    <button type="submit" class="btn-register">Create Account</button>
+
+                    <div class="bottom-link">
+                        Already have an account? <a href="/Identity/Account/Login">Log in</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
