@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\Images\\logo.png"
     },
     {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\css\\modern.css",
+      "PackagePath": "staticwebassets\\css\\modern.css"
+    },
+    {
       "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

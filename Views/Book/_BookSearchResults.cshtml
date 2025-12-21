@@ -1,0 +1,30 @@
+@model List<MyMvcAuthProject.Models.Book>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var book in Model)
+    {
+        <a href="/Book/@System.Net.WebUtility.UrlEncode(book.Title)" class="book-item-link" style="text-decoration: none; color: inherit;">
+            <div class="book-item">
+                <img src="@book.BookURL" alt="@book.Title" class="book-cover">
+                <div class="book-info">
+                    <h5 class="book-title" style="margin: 0; font-size: 1.1rem; font-weight: bold;">@book.Title</h5>
+                    <!-- Author would go here if available in model, skipping for now -->
+                    <div class="book-rating" style="color: #f39c12; margin-top: 5px;">
+                        @for (int i = 0; i < Math.Round(book.Rating); i++)
+                        {
+                            <i class="fas fa-star"></i>
+                        }
+                        <span style="color: #666; font-size: 0.9rem;">(@book.Rating)</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+}
+else
+{
+    <div style="padding: 20px; text-align: center; color: #666;">
+        No books found.
+    </div>
+}

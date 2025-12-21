@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "DqJLMciSHa86W6TKHIlH5lAnETxhNvCtzdepc5tzaro=",
+  "Hash": "g5j4lcpPZhDP1wngUlOBG3JVZ9WXxbx67ojePDtfnWU=",
   "Source": "MyMvcAuthProject",
   "BasePath": "_content/MyMvcAuthProject",
   "Mode": "Default",
@@ -1193,6 +1193,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\MyMvcAuthProject.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\css\\modern.css",
+      "SourceId": "MyMvcAuthProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\",
+      "BasePath": "_content/MyMvcAuthProject",
+      "RelativePath": "css/modern.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\modern.css"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\css\\site.css",
