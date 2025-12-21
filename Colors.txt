@@ -1,0 +1,3 @@
+primary-color:  #1a4d3d;
+secondary-color: #2d7a5f;
+tertiary-color: #888;   

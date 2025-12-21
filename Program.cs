@@ -57,11 +57,6 @@ var supabase = new Client(url, key, options);
 await supabase.InitializeAsync();  
   
 // Use the repository  
-var bookRepository = new BookRepository(supabase);  
-var books = await bookRepository.GetAllBooks();
-foreach (var book in books)
-{
-    Console.WriteLine($"Title: {book.Title}, Price: {book.Price}");
-}
+
 
 app.Run();

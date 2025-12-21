@@ -1,27 +1,281 @@
-@model IEnumerable<MyMvcAuthProject.Models.Book>
-
+@model Book
 @{
-    ViewData["Title"] = "Books";
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Books</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>BookId</th>
-            <th>Title</th>
-            <th>AuthorId</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var book in Model)
-    {
-        <tr>
-            <td>@book.BookId</td>
-            <td>@book.Title</td>
-            <td>@book.AuthorId</td>
-        </tr>
+<style>
+    /* Secondary Navigation */
+    .secondary-nav {
+        border-bottom: 1px solid #dee2e6;
+        padding: 0 8rem;
+        margin-top: 0;
     }
-    </tbody>
-</table>
+
+    .secondary-nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .secondary-nav .nav {
+        display: flex;
+        gap: 2.5rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .secondary-nav .nav-link {
+        color: #999 !important;
+        border-bottom: 3px solid transparent;
+        padding: 1rem 0 !important;
+        font-size: 0.9rem;
+        font-weight: 400;
+        cursor: pointer;
+    }
+
+    .secondary-nav .nav-link.active {
+        color: #000 !important;
+        border-bottom-color: #000;
+    }
+
+    .secondary-nav .nav-link:hover {
+        color: #000 !important;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: 3rem 8rem;
+    }
+
+    .book-section {
+        display: flex;
+        gap: 4rem;
+    }
+
+    /* Left Column */
+    .left-column {
+        flex: 0 0 280px;
+    }
+
+    .rating {
+        color: #000;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .rating i {
+        color: #000;
+    }
+
+    .book-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+        font-family: 'Times New Roman', serif;
+        line-height: 1.2;
+    }
+
+    .author-name {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+    .author-name a {
+        color: #666;
+        text-decoration: none;
+    }
+
+    .author-name a:hover {
+        text-decoration: underline;
+    }
+
+    .book-cover {
+        width: 100%;
+        max-width: 220px;
+        height: auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        max-width: 220px;
+    }
+
+    .want-to-read-btn {
+        background: #2b2b2b;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .want-to-read-btn:hover {
+        background: #000;
+    }
+
+    /* Right Column */
+    .right-column {
+        flex: 1;
+    }
+
+    /* Tab Content */
+    .tab-content {
+        width: 100%;
+    }
+
+    .tab-pane {
+        display: none;
+    }
+
+    .tab-pane.active {
+        display: block;
+    }
+
+    /* FIXED MEDIA QUERY */
+    @@media (max-width: 992px) {
+        .main-content, .secondary-nav {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        .book-section {
+            flex-direction: column;
+        }
+        .left-column {
+            flex: 1;
+        }
+    }
+</style>
+
+<input type="hidden" id="AuthorIdValue" value="@Model.AuthorId" />
+
+<!-- Secondary Navigation -->
+<div class="secondary-nav">
+    <div class="secondary-nav-content">
+        <ul class="nav" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab">Reviews</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="author-tab" data-bs-toggle="tab" href="#author" role="tab">Author</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="start-club-tab" data-bs-toggle="tab" href="#start-club" role="tab">Start a club</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="faq-tab" data-bs-toggle="tab" href="#faq" role="tab">FAQ</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="book-section" id="bookSection">
+
+        <!-- LEFT (Hidden on Author tab) -->
+        <div class="left-column" id="leftColumn">
+            <div class="rating">
+                <i class="fas fa-star"></i> @Model.Rating
+            </div>
+
+            <h1 class="book-title">@Model.Title</h1>
+
+            <p class="author-name">By <a href="#">@ViewBag.Author.Name</a></p>
+
+            <!-- Dynamically loaded book cover -->
+            <img src="@Model.BookURL"
+                 alt="@Model.Title Book Cover"
+                 class="book-cover">
+
+            <div class="action-buttons">
+                <button class="want-to-read-btn">
+                    Want to read <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-column" id="rightColumn">
+            <!-- Tab Content -->
+            <div class="tab-content" id="myTabContent">
+                <!-- About Tab -->
+                <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                    @await Html.PartialAsync("_AboutPartial", Model)
+                </div>
+
+                <!-- Reviews Tab -->
+                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    @await Html.PartialAsync("_ReviewPartial")
+                </div>
+
+                <!-- Author Tab -->
+                <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab">
+                    @await Html.PartialAsync("_AuthorPartial")
+                </div>
+
+                <!-- Start a Club Tab -->
+                <div class="tab-pane fade" id="start-club" role="tabpanel" aria-labelledby="start-club-tab">
+                    <h2 style="font-size: 1.75rem; font-family: 'Times New Roman', serif;">Start a Book Club</h2>
+                    <p>Book club information coming soon...</p>
+                </div>
+
+                <!-- FAQ Tab -->
+                <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+                    <h2 style="font-size: 1.75rem; font-family: 'Times New Roman', serif;">FAQ</h2>
+                    <p>Frequently asked questions coming soon...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Handle tab switching to hide/show left column
+    document.addEventListener('DOMContentLoaded', function() {
+        const authorTab = document.getElementById('author-tab');
+        const reviewsTab = document.getElementById('reviews-tab');
+        const allTabs = document.querySelectorAll('[data-bs-toggle="tab"]');
+        const leftColumn = document.getElementById('leftColumn');
+        const rightColumn = document.getElementById('rightColumn');
+        const bookSection = document.getElementById('bookSection');
+
+        allTabs.forEach(tab => {
+            tab.addEventListener('shown.bs.tab', function(e) {
+                if (e.target.id === 'author-tab' || e.target.id === 'reviews-tab') {
+                    // Hide left column when Author or Reviews tab is active
+                    leftColumn.style.display = 'none';
+                    rightColumn.style.flex = '1';
+                    rightColumn.style.maxWidth = '100%';
+                    bookSection.style.justifyContent = 'center';
+                } else {
+                    // Show left column for other tabs
+                    leftColumn.style.display = 'block';
+                    rightColumn.style.flex = '1';
+                    rightColumn.style.maxWidth = 'none';
+                    bookSection.style.justifyContent = 'flex-start';
+                }
+            });
+        });
+    });
+</script>

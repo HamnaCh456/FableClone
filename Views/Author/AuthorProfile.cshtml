@@ -1,0 +1,256 @@
+@model List<Book>
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Author.Name - Author | Fable</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #0d4d3d;
+        }
+        
+        body {
+            overflow: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        
+        /* Left Section */
+        .left-section {
+            flex: 0 0 50%;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #0a3d30 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0;
+            position: relative;
+            border-top-right-radius: 60px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        .author-image {
+            width: 190px; /* slightly larger */
+            height: 190px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 5px solid rgba(255,255,255,0.2);
+        }
+
+        .author-name {
+            font-size: 2.7rem; /* slightly larger */
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .author-role {
+            font-size: 1.1rem; /* slightly larger */
+            opacity: 0.9;
+        }
+
+        .share-btn {
+            margin-top: 1.7rem; 
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 58px;  /* slightly larger */
+            height: 58px; 
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Right Section */
+        .right-section {
+            flex: 1;
+            background: white;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .right-section::-webkit-scrollbar {
+            width: 12px;
+        }
+        .right-section::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 6px;
+        }
+
+        /* Bio */
+        .bio-section {
+            padding: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .bio-section h2,
+        .books-section h2 {
+            color: #999;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .bio-section p {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* Books Section */
+        .books-section {
+            padding: 1.5rem 2.5rem 3rem 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .book-card {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            width: 100%;
+            text-decoration: none;
+        }
+
+        .book-cover-wrapper {
+            width: 120px;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .book-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: #666;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- LEFT -->
+        <div class="left-section">
+
+            <button class="back-btn">
+                <i class="fas fa-chevron-left"></i> Back
+            </button>
+
+            <div class="author-container">
+                <img src="@ViewBag.Author.AuthorImage" 
+                     class="author-image" 
+                     alt="@ViewBag.Author.Name">
+                <h1 class="author-name">@ViewBag.Author.Name</h1>
+                <p class="author-role">Author</p>
+            </div>
+
+            <button class="share-btn">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-section">
+
+            <div class="bio-section">
+                <h2>Bio</h2>
+                <p>
+                    @ViewBag.Author.Bio
+                </p>
+            </div>
+
+            <div class="books-section">
+                <h2>@ViewBag.Author.Name Books</h2>
+
+                <div class="books-grid">
+                 @foreach (var book in Model)
+                 {
+                    <!-- Book 1 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src=@book.BookURL class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">@book.Title</div>
+                            <div class="book-author">@ViewBag.Author.Name</div>
+                        </div>
+                    </a>
+                 }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

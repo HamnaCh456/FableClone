@@ -1,0 +1,117 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #ffffff;
+        color: #333;
+        line-height: 1.8;
+    }
+
+    .author-section {
+        max-width: 900px;
+        margin: 20px auto 60px;
+        padding: 40px 20px;
+    }
+
+    .author-heading {
+        font-size: 32px;
+        font-weight: 400;
+        margin-bottom: 30px;
+        color: #1a1a1a;
+        letter-spacing: 0.5px;
+    }
+
+    .author-bio {
+        font-size: 16px;
+        line-height: 1.9;
+        color: #333;
+        margin-bottom: 25px;
+        text-align: justify;
+    }
+
+    .author-name {
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .book-title {
+        font-style: italic;
+        color: #2c3e50;
+    }
+
+    .view-profile-btn {
+        display: inline-block;
+        padding: 14px 50px;
+        border: 2px solid #1a1a1a;
+        border-radius: 50px;
+        background-color: transparent;
+        color: #1a1a1a;
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .view-profile-btn:hover {
+        background-color: #1a1a1a;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 35px;
+    }
+
+    .text-highlight {
+        background-color: #fff9e6;
+        padding: 2px 4px;
+    }
+
+    .divider {
+        height: 1px;
+        background-color: #e0e0e0;
+        margin: 40px 0;
+    }
+
+    @@media (max-width: 768px) {
+        .author-section {
+            margin: 30px auto;
+            padding: 20px 15px;
+        }
+
+        .author-heading {
+            font-size: 26px;
+        }
+
+        .author-bio {
+            font-size: 15px;
+            text-align: left;
+        }
+
+        .view-profile-btn {
+            padding: 12px 40px;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="author-section">
+        <h2 class="author-heading">About @ViewBag.Author.Name</h2>
+        
+        <div class="author-content">
+            <p class="author-bio">
+                @ViewBag.Author.Bio
+            </p>
+        </div>
+
+        <div class="btn-container">
+            <a href="@Url.Action("AuthorProfile", "Author", new { authorId = ViewBag.Author.AuthorId })" class="view-profile-btn">View profile</a>
+        </div>
+
+        <div class="divider"></div>
+    </div>
+</div>

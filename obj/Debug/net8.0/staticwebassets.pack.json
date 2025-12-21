@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\js\\author_loader.js",
+      "PackagePath": "staticwebassets\\js\\author_loader.js"
+    },
+    {
       "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

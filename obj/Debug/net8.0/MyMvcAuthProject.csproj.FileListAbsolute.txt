@@ -292,3 +292,4 @@ C:\Users\LENOVO\Desktop\Web_technologies\smesterProjectAuthentication\MyMvcAuthP
 C:\Users\LENOVO\Desktop\Web_technologies\smesterProjectAuthentication\MyMvcAuthProject\bin\Debug\net8.0\Websocket.Client.dll
 C:\Users\LENOVO\Desktop\Web_technologies\smesterProjectAuthentication\MyMvcAuthProject\bin\Debug\net8.0\DotNetEnv.dll
 C:\Users\LENOVO\Desktop\Web_technologies\smesterProjectAuthentication\MyMvcAuthProject\bin\Debug\net8.0\Sprache.dll
+C:\Users\LENOVO\Desktop\Web_technologies\smesterProjectAuthentication\MyMvcAuthProject\obj\Debug\net8.0\MyMvcAuthProject.sourcelink.json

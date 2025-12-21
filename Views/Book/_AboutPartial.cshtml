@@ -1,0 +1,58 @@
+@model Book
+
+<style>
+    .section-title {
+        font-size: 1.75rem;
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        font-family: 'Times New Roman', serif;
+    }
+
+    .publisher-description {
+        line-height: 1.8;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .publisher-description p {
+        margin-bottom: 1.2rem;
+    }
+
+    .publisher-description em {
+        font-style: italic;
+    }
+
+    .publisher-description strong {
+        font-weight: 600;
+    }
+
+    .see-more {
+        color: #666;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .see-more:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<h2 class="section-title">Publisher Description</h2>
+
+<div class="publisher-description">
+    <p>
+        <strong>@Model.Description</strong>
+   
+
+    <a href="#" class="see-more">See more</a>
+</div>
+
+<script>
+    // See more toggle
+    document.querySelector('.see-more')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('This would expand to show more content');
+    });
+</script>

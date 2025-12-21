@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cXiJIoCG+Zm38nHOTl480K49OPGzi0SyekZ3MEnbeqA=",
+  "Hash": "DqJLMciSHa86W6TKHIlH5lAnETxhNvCtzdepc5tzaro=",
   "Source": "MyMvcAuthProject",
   "BasePath": "_content/MyMvcAuthProject",
   "Mode": "Default",
@@ -1269,6 +1269,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\logo.png"
+    },
+    {
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\js\\author_loader.js",
+      "SourceId": "MyMvcAuthProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\",
+      "BasePath": "_content/MyMvcAuthProject",
+      "RelativePath": "js/author_loader.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\author_loader.js"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\js\\site.js",

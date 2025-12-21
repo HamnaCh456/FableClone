@@ -20,26 +20,33 @@ public class ApplicationDbContext : IdentityDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Ignore any ClientOptions type that Supabase or other packages might introduce.
-        // This prevents EF Core from trying to map external types as entities.
-        try
+        // Configure UserProfile entity
+        modelBuilder.Entity<UserProfile>(entity =>
         {
-            var clientOptionsType = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .FirstOrDefault(t => t.Name == "ClientOptions");
+            entity.HasKey(e => e.UserId);
+            entity.ToTable("userprofile");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.DisplayName).HasColumnName("display_name");
+            entity.Property(e => e.Bio).HasColumnName("bio");
+            entity.Property(e => e.UserImage).HasColumnName("user_image");
+        });
 
-            if (clientOptionsType != null)
+        // Robustly ignore ClientOptions from external packages (like Supabase)
+        // We iterate assemblies individually to handle TypeLoadExceptions safely
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            try
             {
-                var method = typeof(ModelBuilder)
-                    .GetMethod("Ignore", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance, null, new Type[] { }, null)?
-                    .MakeGenericMethod(clientOptionsType);
-
-                method?.Invoke(modelBuilder, null);
+                var types = assembly.GetTypes().Where(t => t.Name == "ClientOptions");
+                foreach (var type in types)
+                {
+                    modelBuilder.Ignore(type);
+                }
             }
-        }
-        catch
-        {
-            // Silently ignore if the type cannot be found or ignored
+            catch
+            {
+                // Ignore assembly load errors
+            }
         }
     }
 }

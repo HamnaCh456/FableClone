@@ -16,5 +16,8 @@ namespace MyMvcAuthProject.Models
   
         [Column("bio")]  
         public string Bio { get; set; }  
+  
+        [Column("user_image")]  
+        public string UserImage { get; set; }  
     }  
 }

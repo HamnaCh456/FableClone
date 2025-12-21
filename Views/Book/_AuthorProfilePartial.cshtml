@@ -1,0 +1,323 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paulo Coelho - Author | Fable</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #0d4d3d;
+        }
+        
+        body {
+            overflow: auto; /* MAIN PAGE SCROLL */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Left Section */
+        .left-section {
+            flex: 0 0 50%;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #0a3d30 100%);
+            color: white;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            position: relative;
+            border-top-right-radius: 60px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-container {
+            text-align: center;
+            margin-top: 2.5rem; /* slightly downward */
+            width: 100%;
+        }
+
+        .author-image {
+            width: 190px; /* slightly larger */
+            height: 190px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 5px solid rgba(255,255,255,0.2);
+        }
+
+        .author-name {
+            font-size: 2.7rem; /* slightly larger */
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .author-role {
+            font-size: 1.1rem; /* slightly larger */
+            opacity: 0.9;
+        }
+
+        .share-btn {
+            margin-top: 1.7rem; 
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 58px;  /* slightly larger */
+            height: 58px; 
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Right Section */
+        .right-section {
+            flex: 1;
+            background: white;
+            overflow-y: scroll; /* INNER SCROLLBAR */
+            overflow-x: hidden;
+        }
+
+        .right-section::-webkit-scrollbar {
+            width: 12px;
+        }
+        .right-section::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 6px;
+        }
+
+        /* Bio */
+        .bio-section {
+            padding: 2.5rem;
+        }
+
+        .bio-section h2,
+        .books-section h2 {
+            color: #999;
+            font-size: 1.2rem; /* SAME AS BIO */
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Books Section */
+        .books-section {
+            padding: 1.5rem 2.5rem;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem 2rem;
+        }
+
+        .book-card {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            width: 100%;
+            text-decoration: none;
+        }
+
+        .book-cover-wrapper {
+            width: 120px;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .book-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: #666;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- LEFT -->
+        <div class="left-section">
+
+            <button class="back-btn">
+                <i class="fas fa-chevron-left"></i> Back
+            </button>
+
+            <div class="author-container">
+                <img src="https://img.fablecdn.net/images/cdn.fable.co/author_images/paulo-coelho?w=600" 
+                     class="author-image">
+                <h1 class="author-name">Paulo Coelho</h1>
+                <p class="author-role">Author</p>
+            </div>
+
+            <button class="share-btn">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-section">
+
+            <div class="bio-section">
+                <h2>Bio</h2>
+                <p>
+                    PAULO COELHO is the author of many international best sellers, including <em>The Alchemist</em>, 
+                    <em>Eleven Minutes</em>, <em>The Pilgrimage</em>, and <em>The Fifth Mountain</em>. He has been a member 
+                    of the Academy of Letters of Brazil since 2002 and in 2007 was named a Messenger of Peace by the 
+                    United Nations. In 2009, he received the Guinness World Record for Most Translated Author for the 
+                    Same Book (<em>The Alchemist</em>).
+                </p>
+            </div>
+
+            <div class="books-section">
+                <h2>Paulo Coelho Books</h2>
+
+                <div class="books-grid">
+
+                    <!-- Book 1 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://img.fablecdn.net/images/cdn.fable.co/covers/9780063470101.jpg?w=260" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">The Supreme Gift</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                    <!-- Book 2 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://img.fablecdn.net/images/cdn.fable.co/covers/ftp/harpercollins/harpercollins/9780063346550.jpg?w=260" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">Maktub</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                    <!-- Book 3 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images-na.ssl-images-amazon.com/images/I/81p8ZpZJcBL.jpg" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">The Alchemist</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                    <!-- Book 4 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images-na.ssl-images-amazon.com/images/I/71UwSHSZRnL.jpg" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">Veronika Decides to Die</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                    <!-- Book 5 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images-na.ssl-images-amazon.com/images/I/81zLw4O1FJL.jpg" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">Brida</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                    <!-- Book 6 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images-na.ssl-images-amazon.com/images/I/81h1QFQp+LL.jpg" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">Eleven Minutes</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                    <!-- Book 7 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images-na.ssl-images-amazon.com/images/I/81N2P0k-HrL.jpg" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">The Pilgrimage</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                    <!-- Book 8 -->
+                    <a href="#" class="book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images-na.ssl-images-amazon.com/images/I/81mJD9Zh8YL.jpg" class="book-cover">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-title">The Fifth Mountain</div>
+                            <div class="book-author">Paulo Coelho</div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
