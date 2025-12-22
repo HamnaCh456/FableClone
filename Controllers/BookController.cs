@@ -11,7 +11,7 @@ namespace MyMvcAuthProject.Controllers
     public class BookController : Controller
     {
         [HttpGet("Book/{name?}")]
-        public async Task<IActionResult> Index(string name = null)
+        public async Task<IActionResult> Index(string? name = null)
         {
             var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
             var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
@@ -30,6 +30,7 @@ namespace MyMvcAuthProject.Controllers
             if (!string.IsNullOrEmpty(name))
             {
                 // Decode the name just in case, though ASP.NET Core usually handles it
+                name = System.Net.WebUtility.UrlDecode(name);
                 var searchResults = await bookRepository.SearchBooksByName(name);
                 book = searchResults.FirstOrDefault();
             }
@@ -101,6 +102,33 @@ namespace MyMvcAuthProject.Controllers
         public IActionResult Search()
         {
             return View("SearchBooks");
+        }
+
+        [HttpGet("Book/ExploreBooks")]
+        public async Task<IActionResult> ExploreBooks()
+        {
+            var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
+            var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
+
+            var options = new SupabaseOptions
+            {
+                AutoConnectRealtime = true
+            };
+
+            var supabase = new Client(url, key, options);
+            await supabase.InitializeAsync();
+
+            var bookRepository = new BookRepository(supabase);
+            var FictionBooks = await bookRepository.GetBooksByLabel("Fiction");
+            ViewBag.FictionBooks = FictionBooks;
+            var PhilosophyBooks = await bookRepository.GetBooksByLabel("Philosophy");
+            ViewBag.PhilosophyBooks = PhilosophyBooks;
+            var NonFictionBooks = await bookRepository.GetBooksByLabel("Non-Fiction");
+            ViewBag.NonFictionBooks = NonFictionBooks;
+            var PoliticsBooks = await bookRepository.GetBooksByLabel("Politics");
+            ViewBag.PoliticsBooks = PoliticsBooks;
+            return View();
+            
         }
 
     }

@@ -1,13 +1,12 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using MyMvcAuthProject.Models;
 using MyMvcAuthProject.Data;
 using Supabase;
 using MyMvcAuthProject.Repositories;
 using MyMvcAuthProject.ViewModels;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-
 
 namespace MyMvcAuthProject.Controllers
 {
@@ -35,8 +34,23 @@ namespace MyMvcAuthProject.Controllers
         public async Task<IActionResult> UserProfile()
         {
             var userId = _userManager.GetUserId(User);
-            var userProfileRepository = new userProfileRepository(_supabase);
+            var userProfileRepository = new UserProfileRepository(_supabase);
             var userProfile = await userProfileRepository.GetUserByUserId(userId);
+            
+            if (userProfile == null)
+            {
+                userProfile = new UserProfile
+                {
+                    UserId = userId,
+                    DisplayName = "Reader",
+                    Bio = "",
+                    UserImage = "https://randomuser.me/api/portraits/lego/1.jpg" // Default placeholder
+                };
+                
+                // Optionally save this default profile immediately or just let the user save it later.
+                // For now, let's just pass it to the view so there's no crash.
+            }
+
             return View("UserProfile",userProfile);
         }
         [HttpPost]
@@ -51,12 +65,20 @@ namespace MyMvcAuthProject.Controllers
             
             if (existingProfile != null)
             {
-                // Preserve the existing image
+                // Update existing profile (preserve image)
                 user.UserImage = existingProfile.UserImage;
-                user.UserId = userId; // Ensure ID is set correctly
-                
-                await userProfileRepository.SaveUserData(user);
             }
+            else
+            {
+                // Initialize default values for new profile
+                user.UserImage = "https://randomuser.me/api/portraits/lego/1.jpg";
+            }
+            
+            // Always ensure UserId is set correctly
+            user.UserId = userId; 
+            
+            // Upsert (Insert or Update)
+            await userProfileRepository.SaveUserData(user);
 
             return RedirectToAction("UserProfile");
         }

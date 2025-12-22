@@ -22,6 +22,23 @@ namespace MyMvcAuthProject.Repositories
                
             return result.Models;  
          }
+        public async Task<Review> AddReview(Guid bookId, string userId, int? rating, string reviewContent)  
+        {  
+            var newReview = new Review  
+            {  
+                ReviewId = Guid.NewGuid(),  
+                BookId = bookId,  
+                UserId = userId,  
+                Rating = rating,  
+                ReviewContent = reviewContent  
+            };  
+        
+                var result = await _supabase  
+                    .From<Review>()  
+                    .Insert(newReview, new QueryOptions { Returning = ReturnType.Representation });  
+                
+                return result.Models.FirstOrDefault();  
+        }
         
     }  
 }

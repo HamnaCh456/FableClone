@@ -24,6 +24,14 @@ namespace MyMvcAuthProject.Repositories
                
             return result.Models.FirstOrDefault();  
         }
+        public async Task<UserProfile?> SaveUserData(UserProfile userProfile)  
+        {  
+            var result = await _supabase  
+                .From<UserProfile>()  
+                .Upsert(userProfile);  
+                
+            return result.Models.FirstOrDefault();  
+        }
        
     }
 }

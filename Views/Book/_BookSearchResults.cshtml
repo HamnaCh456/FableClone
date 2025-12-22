@@ -4,7 +4,7 @@
 {
     foreach (var book in Model)
     {
-        <a href="/Book/@System.Net.WebUtility.UrlEncode(book.Title)" class="book-item-link" style="text-decoration: none; color: inherit;">
+        <a href="/Book/@Uri.EscapeDataString(book.Title)" class="book-item-link" style="text-decoration: none; color: inherit;">
             <div class="book-item">
                 <img src="@book.BookURL" alt="@book.Title" class="book-cover">
                 <div class="book-info">

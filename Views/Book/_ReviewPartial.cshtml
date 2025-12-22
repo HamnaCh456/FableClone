@@ -1,118 +1,196 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Reviews</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+@model MyMvcAuthProject.Models.Book
+<div id="reviewsContainer">
+    <style>
+        .review-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
 
-  <style>
-    body {
-      padding: 60px 100px;
-      background-color: #fafafa;
-    }
-    .review-card {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      padding: 20px;
-      margin-bottom: 25px;
-    }
-    .review-header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 10px;
-    }
-    .review-header img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .review-header .name {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    .review-header .time {
-      color: #888;
-      font-size: 0.9rem;
-    }
-    .stars {
-      color: #ffc107;
-      margin-bottom: 10px;
-    }
-    .tag {
-      background-color: #198754;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 25px;
-      font-size: 0.8rem;
-      margin: 4px 6px 0 0;
-      display: inline-block;
-    }
-  </style>
-</head>
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
 
-<body>
+            .review-header img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
 
-  <div class="container">
-    <h3 class="mb-4 fw-bold">@Model.Title Reviews</h3>
-@foreach (var review in ViewBag.Reviews)
-{
-    <!-- Rating summary -->
-    <div class="d-flex align-items-center mb-4">
-      <div class="stars fs-5 me-2">
-        ★★★★☆
-      </div>
-      <span class="fw-semibold">@ViewBag.Rating</span>
+            .review-header .name {
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+
+            .review-header .time {
+                color: #888;
+                font-size: 0.9rem;
+            }
+
+        .stars {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            background-color: #198754;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            margin: 4px 6px 0 0;
+            display: inline-block;
+        }
+
+        .btn-add-review {
+            background-color: #000;
+            color: #fff;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+            .btn-add-review:hover {
+                background-color: #333;
+                color: #fff;
+            }
+
+        #addReviewForm {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            display: none;
+        }
+    </style>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">Reviews</h3>
+        <button class="btn btn-add-review" onclick="toggleReviewForm()">Add Review</button>
     </div>
 
-    <!-- Review 1 -->
-    <div class="review-card">
-      <div class="review-header">
-        <img src="@(ViewBag.UserImages != null && ViewBag.UserImages.ContainsKey(review.UserId) ? ViewBag.UserImages[review.UserId] : "https://randomuser.me/api/portraits/women/44.jpg")" alt="User">
-        <div>
-          <div class="name">
-              @if(ViewBag.UserDisplayNames != null && ViewBag.UserDisplayNames.ContainsKey(review.UserId))
-              {
-                  @ViewBag.UserDisplayNames[review.UserId]
-              }
-              else
-              {
-                  @:User
-              }
-          </div>
-          <div class="time">Created about 3 hours ago</div>
+    <!-- Add Review Form -->
+    <div id="addReviewFormSection">
+        <form id="addReviewForm">
+            <input type="hidden" name="bookId" value="@(Model?.BookId)" />
+            <div class="mb-3">
+                <label class="form-label fw-bold">Rating</label>
+                <select name="rating" class="form-select" required>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Very Good</option>
+                    <option value="3">3 - Good</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Poor</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Your Review</label>
+                <textarea name="reviewContent" class="form-control" rows="4" placeholder="Share your thoughts about this book..." required></textarea>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-dark rounded-pill px-4">Post Review</button>
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="toggleReviewForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    @if (ViewBag.Reviews != null && ((IEnumerable<dynamic>)ViewBag.Reviews).Any())
+    {
+        @foreach (var review in ViewBag.Reviews)
+        {
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="@(ViewBag.UserImages != null && ViewBag.UserImages.ContainsKey(review.UserId) ? ViewBag.UserImages[review.UserId] : "https://randomuser.me/api/portraits/women/44.jpg")" alt="User">
+                    <div>
+                        <div class="name">
+                            @(ViewBag.UserDisplayNames != null && ViewBag.UserDisplayNames.ContainsKey(review.UserId) ? ViewBag.UserDisplayNames[review.UserId] : "User")
+                        </div>
+                        <div class="time">Verified Reader</div>
+                    </div>
+                </div>
+
+                <div class="stars">
+                    @for (int i = 0; i < (review.Rating ?? 5); i++)
+                    {
+                        <i class="fas fa-star"></i>
+                    }
+                    @for (int i = (review.Rating ?? 5); i < 5; i++)
+                    {
+                        <i class="far fa-star text-muted"></i>
+                    }
+                </div>
+
+                <p>@review.ReviewContent</p>
+
+                <div class="mt-3">
+                    <span class="tag">Insightful</span>
+                    <span class="tag">Must-read</span>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <p class="text-muted">No reviews yet. Be the first to review this book!</p>
         </div>
-      </div>
+    }
 
-      <div class="stars">★★★★★</div>
+    <script>
+        function toggleReviewForm() {
+            const form = document.getElementById('addReviewForm');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
 
-      <p>
-        @review.ReviewContent
-      </p>
+        document.getElementById('addReviewForm').addEventListener('submit', function (e) {
+            e.preventDefault();
 
-      <div>
-        <span class="tag">Believable</span>
-        <span class="tag">Likeable</span>
-        <span class="tag">Memorable</span>
-        <span class="tag">Multilayered</span>
-        <span class="tag">Original</span>
-        <span class="tag">Strong relationships</span>
-        <span class="tag">Action-packed</span>
-        <span class="tag">Addictive</span>
-        <span class="tag">Gripping/exciting</span>
-        <span class="tag">Setting fits the story</span>
-        <span class="tag">Unique location</span>
-        <span class="tag">Beautifully-written</span>
-        <span class="tag">War violence</span>
-      </div>
-    </div>
-}
+            const formData = new FormData(this);
+            const bookId = formData.get('bookId');
+            const rating = formData.get('rating');
+            const reviewContent = formData.get('reviewContent');
 
-
-  </div>
-
-</body>
-</html>
+            fetch('/Review/AddReview', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'bookId': bookId,
+                    'rating': rating,
+                    'reviewContent': reviewContent
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    if (response.status === 401) {
+                        alert('Please login to post a review.');
+                        window.location.href = '/Identity/Account/Login';
+                    }
+                    throw new Error('Something went wrong');
+                })
+                .then(html => {
+                    document.getElementById('reviews').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</div>

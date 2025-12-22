@@ -242,22 +242,22 @@
                 </button>
             </div>
 
-            <div class="edit-profile-pic">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg">
-                <!-- CHANGED HERE: text-primary → text-dark -->
-                <a href="#" class="d-block mt-2 text-dark">Change profile photo</a>
-            </div>
+            <form asp-action="EditProfile" asp-controller="Profile" method="post">
+                <div class="edit-profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg">
+                    <!-- CHANGED HERE: text-primary → text-dark -->
+                    <a href="#" class="d-block mt-2 text-dark">Change profile photo</a>
+                </div>
 
-            <label class="form-label">Display name</label>
-            <input class="form-control rounded-input mb-3" value = @Model.DisplayName>
+                <label class="form-label">Display name</label>
+                <input class="form-control rounded-input mb-3" name="DisplayName" value="@Model.DisplayName">
 
-            <label class="form-label">Bio</label>
-            <textarea class="form-control rounded-input mb-3" rows="4">
-              @Model.Bio
-            </textarea>
+                <label class="form-label">Bio</label>
+                <textarea class="form-control rounded-input mb-3" name="Bio" rows="4">@Model.Bio</textarea>
 
-            <button class="btn btn-dark rounded-pill w-100 mb-2">Save</button>
-            <button class="btn btn-outline-dark rounded-pill w-100" id="cancelEditProfile">Cancel</button>
+                <button type="submit" class="btn btn-dark rounded-pill w-100 mb-2">Save</button>
+                <button type="button" class="btn btn-outline-dark rounded-pill w-100" id="cancelEditProfile">Cancel</button>
+            </form>
 
         </div>
     </div>

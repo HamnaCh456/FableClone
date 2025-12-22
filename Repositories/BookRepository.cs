@@ -45,5 +45,15 @@ namespace MyMvcAuthProject.Repositories
             
             return result.Models;  
         }
+         public async Task<List<Book>> GetBooksByLabel(string label)  
+        {  
+            var result = await _supabase    
+                .From<Book>()    
+                .Filter("label", Supabase.Postgrest.Constants.Operator.Equals, label)    
+                .Get();    
+          
+            return result.Models; 
+        }
     }  
+   
 }
