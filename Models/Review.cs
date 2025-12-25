@@ -7,6 +7,7 @@ namespace MyMvcAuthProject.Models
     public class Review : BaseModel  
     {  
         [PrimaryKey("review_id")]  
+        [Column("review_id")]
         public Guid ReviewId { get; set; }  
   
         [Column("user_id")]  

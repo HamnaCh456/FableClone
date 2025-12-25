@@ -43,5 +43,15 @@ namespace MyMvcAuthProject.Repositories
             
             return author;  
         }
+
+        public async Task<Author> InsertAuthor(Author author)
+        {
+            author.AuthorId = Guid.NewGuid();
+            var result = await _supabase
+                .From<Author>()
+                .Insert(author);
+
+            return result.Models.FirstOrDefault();
+        }
     }
 }

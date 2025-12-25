@@ -4,6 +4,7 @@ using MyMvcAuthProject.Data;
 using Supabase;  
 using MyMvcAuthProject.Repositories;  
 using DotNetEnv;
+using Microsoft.AspNetCore.Http;
 
 Env.Load();
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,52 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    
+    options.Events.OnRedirectToLogin = context =>
+    {
+        if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        }
+        else
+        {
+            context.Response.Redirect(context.RedirectUri);
+        }
+        return System.Threading.Tasks.Task.CompletedTask;
+    };
+    
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        }
+        else
+        {
+            context.Response.Redirect(context.RedirectUri);
+        }
+        return System.Threading.Tasks.Task.CompletedTask;
+    };
+});
+
+// Add Authorization Policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireAssertion(context =>
+            context.User.Identity.IsAuthenticated &&
+            context.User.Identity.Name == "admin@gmail.com"));
+});
+
+// Add SignalR
+builder.Services.AddSignalR();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -32,17 +79,19 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapHub<MyMvcAuthProject.Hubs.NotificationHub>("/notificationHub");
 
   
 var url ="https://phqjkkhovqndiyyuwljc.supabase.co";  

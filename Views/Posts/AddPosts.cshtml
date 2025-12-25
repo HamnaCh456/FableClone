@@ -1,0 +1,199 @@
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<div id="postsContainer">
+    <style>
+        .post-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+            .post-header img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .post-header .name {
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+
+            .post-header .time {
+                color: #888;
+                font-size: 0.9rem;
+            }
+
+        .tag {
+            background-color: #198754;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            margin: 4px 6px 0 0;
+            display: inline-block;
+        }
+
+        .btn-add-post {
+            background-color: #000;
+            color: #fff;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+            .btn-add-post:hover {
+                background-color: #333;
+                color: #fff;
+            }
+
+        #addPostForm {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            display: none;
+        }
+    </style>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">Posts</h3>
+        <button class="btn btn-add-post" onclick="togglePostForm()">Add Post</button>
+    </div>
+
+    <!-- Add Post Form -->
+    <div id="addPostFormSection">
+        <form id="addPostForm" method="post" asp-controller="Post" asp-action="AddPost">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label class="form-label fw-bold">Share Your Thoughts</label>
+                <textarea name="postContent" class="form-control" rows="4" placeholder="What's on your mind about books?" required></textarea>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-dark rounded-pill px-4">Post</button>
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="togglePostForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    @if (ViewBag.Posts != null && ((IEnumerable<dynamic>)ViewBag.Posts).Any())
+    {
+        @foreach (var post in ViewBag.Posts)
+        {
+            <div class="post-card">
+                <div class="post-header">
+                    <img src="@(ViewBag.UserImages != null && ViewBag.UserImages.ContainsKey(post.UserId) ? ViewBag.UserImages[post.UserId] : "https://randomuser.me/api/portraits/lego/1.jpg")" alt="User">
+                    <div>
+                        <div class="name">
+                            @(ViewBag.UserDisplayNames != null && ViewBag.UserDisplayNames.ContainsKey(post.UserId) ? ViewBag.UserDisplayNames[post.UserId] : "Anonymous User")
+                        </div>
+                        <div class="time">Book Enthusiast</div>
+                    </div>
+                </div>
+
+                <p>@post.PostContent</p>
+
+                <div class="mt-3">
+                    <span class="tag">Thoughtful</span>
+                    <span class="tag">Book Lover</span>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <p class="text-muted">No posts yet. Be the first to share your thoughts!</p>
+        </div>
+    }
+
+    <script>
+        function togglePostForm() {
+            const form = document.getElementById('addPostForm');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        // Use a self-executing function to avoid global namespace pollution
+        (function() {
+            const form = document.getElementById('addPostForm');
+            if (!form) return;
+
+            console.log("AddPostForm found, attaching listener");
+
+            form.onsubmit = function (e) {
+                e.preventDefault();
+                console.log("Form submit triggered");
+
+                const formData = new FormData(this);
+                const postContent = formData.get('postContent');
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                if (!postContent) {
+                    alert("Please fill in the post content.");
+                    return false;
+                }
+
+                console.log("Submitting post");
+
+                fetch('/Post/AddPost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': token,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin',
+                    body: new URLSearchParams({
+                        'postContent': postContent,
+                        '__RequestVerificationToken': token
+                    })
+                })
+                .then(response => {
+                    console.log("Response status:", response.status);
+                    if (response.ok) {
+                        // Redirect succeeded, reload page to show new post
+                        window.location.reload();
+                        return;
+                    }
+                    if (response.status === 401) {
+                        // Build return URL to redirect back to posts page after login
+                        const currentPath = window.location.pathname + window.location.search;
+                        const returnUrl = encodeURIComponent(currentPath);
+                        alert('Please login to post.');
+                        window.location.href = '/Identity/Account/Login?ReturnUrl=' + returnUrl;
+                        throw new Error("Unauthorized");
+                    }
+                    return response.text().then(text => { throw new Error(text || 'Server error'); });
+                })
+                .catch(error => {
+                    if (error.message !== "Unauthorized") {
+                        console.error('Add Post Error:', error);
+                        alert('Error adding post: ' + error.message);
+                    }
+                });
+
+                return false;
+            };
+        })();
+    </script>
+</div>

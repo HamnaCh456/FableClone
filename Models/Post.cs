@@ -6,7 +6,8 @@ namespace MyMvcAuthProject.Models
     [Table("posts")]  
     public class Post : BaseModel  
     {  
-        [PrimaryKey("post_id")]  
+        [PrimaryKey("post_id", false)]
+        [Column("post_id")]
         public Guid PostId { get; set; }  
   
         [Column("user_id")]  

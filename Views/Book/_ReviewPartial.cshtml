@@ -82,6 +82,7 @@
     <!-- Add Review Form -->
     <div id="addReviewFormSection">
         <form id="addReviewForm">
+            @Html.AntiForgeryToken()
             <input type="hidden" name="bookId" value="@(Model?.BookId)" />
             <div class="mb-3">
                 <label class="form-label fw-bold">Rating</label>
@@ -156,41 +157,94 @@
             }
         }
 
-        document.getElementById('addReviewForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+        // Use a self-executing function to avoid global namespace pollution
+        (function() {
+            const form = document.getElementById('addReviewForm');
+            if (!form) return;
 
-            const formData = new FormData(this);
-            const bookId = formData.get('bookId');
-            const rating = formData.get('rating');
-            const reviewContent = formData.get('reviewContent');
+            console.log("AddReviewForm found, attaching listener");
 
-            fetch('/Review/AddReview', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    'bookId': bookId,
-                    'rating': rating,
-                    'reviewContent': reviewContent
+            form.onsubmit = function (e) {
+                e.preventDefault();
+                console.log("Form submit triggered");
+
+                const formData = new FormData(this);
+                const bookId = formData.get('bookId');
+                const rating = formData.get('rating');
+                const reviewContent = formData.get('reviewContent');
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                if (!bookId || !reviewContent) {
+                    alert("Please fill in all fields.");
+                    return false;
+                }
+
+                console.log("Submitting review for book:", bookId);
+
+                fetch('/Review/AddReview', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': token,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin',
+                    body: new URLSearchParams({
+                        'bookId': bookId,
+                        'rating': rating,
+                        'reviewContent': reviewContent,
+                        '__RequestVerificationToken': token
+                    })
                 })
-            })
                 .then(response => {
+                    console.log("Response status:", response.status);
                     if (response.ok) {
                         return response.text();
                     }
                     if (response.status === 401) {
+                        // Build return URL to redirect back to current book page after login
+                        const currentPath = window.location.pathname + window.location.search;
+                        const returnUrl = encodeURIComponent(currentPath);
                         alert('Please login to post a review.');
-                        window.location.href = '/Identity/Account/Login';
+                        window.location.href = '/Identity/Account/Login?ReturnUrl=' + returnUrl;
+                        throw new Error("Unauthorized");
                     }
-                    throw new Error('Something went wrong');
+                    return response.text().then(text => { throw new Error(text || 'Server error'); });
                 })
                 .then(html => {
-                    document.getElementById('reviews').innerHTML = html;
+                    if (html) {
+                        // Check if the HTML returned is actually the login page (fail-safe)
+                        if (html.includes('Login') && html.includes('form')) {
+                             console.warn("Received login page instead of partial view. Redirecting...");
+                             window.location.href = '/Identity/Account/Login';
+                             return;
+                        }
+
+                        const container = document.getElementById('reviews');
+                        if (container) {
+                            container.innerHTML = html;
+                            console.log("Reviews section updated successfully");
+                        } else {
+                            // Fallback if 'reviews' ID is missing but 'reviewsContainer' is present
+                            const containerNested = document.getElementById('reviewsContainer');
+                            if (containerNested && containerNested.parentElement) {
+                                containerNested.parentElement.innerHTML = html;
+                            } else {
+                                console.error("Could not find container to update reviews");
+                                location.reload(); // Fallback to full reload
+                            }
+                        }
+                    }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    if (error.message !== "Unauthorized") {
+                        console.error('Add Review Error:', error);
+                        alert('Error adding review: ' + error.message);
+                    }
                 });
-        });
+
+                return false;
+            };
+        })();
     </script>
 </div>

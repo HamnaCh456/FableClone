@@ -54,6 +54,16 @@ namespace MyMvcAuthProject.Repositories
           
             return result.Models; 
         }
+
+        public async Task<Book> InsertBook(Book book)
+        {
+            book.BookId = Guid.NewGuid();
+            var result = await _supabase
+                .From<Book>()
+                .Insert(book);
+
+            return result.Models.FirstOrDefault();
+        }
     }  
    
 }
