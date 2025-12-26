@@ -45,7 +45,26 @@ namespace MyMvcAuthProject.Controllers
             // Get books by this author
             var books = await bookRepository.GetBooksByAuthorId(authorId);
 
+            
+            
             return View("AuthorProfile", books);
+        }
+
+        [HttpGet("Author/Search")]
+        public IActionResult Search()
+        {
+            return View("SearchAuthors");
+        }
+
+        [HttpGet("Author/Store")]
+        public async Task<IActionResult> Store(string name)
+        {
+             // Re-initialize if supabase was not properly handled or just reuse _supabase if it's already open
+             // The constructor keeps it open.
+            
+            var authorRepository = new AuthorRepository(_supabase);
+            var authors = await authorRepository.SearchAuthorsByName(name);
+            return PartialView("_AuthorSearchResults", authors);
         }
     }
 }

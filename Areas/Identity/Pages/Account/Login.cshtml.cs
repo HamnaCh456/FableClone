@@ -115,6 +115,14 @@ namespace MyMvcAuthProject.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    
+                    // Check if the logged-in user is admin
+                    if (Input.Email == "admin@gmail.com")
+                    {
+                        // Redirect admin to admin view
+                        return RedirectToAction("AddBook", "Admin");
+                    }
+                    
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

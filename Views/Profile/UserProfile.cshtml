@@ -1,285 +1,411 @@
 @model UserProfile
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@Model.DisplayName- Fable Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'Georgia', serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+@{
+    ViewData["Title"] = Model.DisplayName;
+}
 
-        .top-nav-bar {
-            background: #0d3d2f;
-            padding: 15px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+<!-- Firecrawl Design System Styles -->
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-        .top-nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    :root {
+        --fc-primary: #FA5D19;
+        --fc-primary-hover: #d84d12;
+        --fc-accent: #000000;
+        --fc-bg: #F9F9F9;
+        --fc-surface: #FFFFFF;
+        --fc-border: rgba(0, 0, 0, 0.08);
+        --fc-text-primary: #262626;
+        --fc-text-secondary: rgba(38, 38, 38, 0.6);
+        --fc-focus-ring: rgba(250, 93, 25, 0.1);
+    }
 
-        .nav-title {
-            color: white;
-            font-size: 20px;
-            font-weight: 300;
-        }
+    .fc-container {
+        font-family: 'Suisse Int\'l', 'Inter', ui-sans-serif, system-ui, sans-serif;
+        color: var(--fc-text-primary);
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 40px;
+        background-color: var(--fc-bg);
+        /* Grid Pattern */
+        background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+        background-size: 20px 20px;
+        width: 100%;
+        border-radius: 12px; 
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 35px;
-        }
+    .fc-header {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 400;
-        }
+    .fc-title {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+    }
 
-        .nav-links a.active {
-            border-bottom: 2px solid #e8b4b8;
-        }
+    .fc-subtitle {
+        color: var(--fc-text-secondary);
+        font-size: 14px;
+        font-weight: 450;
+    }
 
-        .profile-header {
-            background: linear-gradient(135deg, #1a4d3d 0%, #2d6854 100%);
-            padding: 60px 40px 80px 40px;
-            position: relative;
-        }
+    /* Profile Card */
+    .fc-card {
+        background: var(--fc-surface);
+        width: 100%;
+        max-width: 480px;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border: 1px solid var(--fc-border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
 
-        .profile-name {
-            font-size: 48px;
-            font-weight: 400;
-            text-align: center;
-            background: linear-gradient(135deg, #ffffff 0%, #e8b4b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
+    .fc-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        margin-bottom: 20px;
+        border: 2px solid var(--fc-surface);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-        .profile-avatar-container {
-            position: relative;
-            margin-top: -90px;
-            text-align: center;
-            z-index: 10;
-        }
+    .fc-name {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        text-align: center;
+    }
 
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: white;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 3px solid white;
-            outline: 3px solid #e0e0e0;
-            outline-offset: 2px;
-        }
+    .fc-bio {
+        font-size: 14px;
+        color: var(--fc-text-secondary);
+        text-align: center;
+        line-height: 1.5;
+        margin-bottom: 32px;
+        max-width: 320px;
+    }
 
-        .butterfly-icon {
-            font-size: 60px;
-        }
+    /* Buttons & Actions */
+    .fc-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
 
-        .profile-content {
-            background-color: white;
-            padding: 40px;
-        }
+    .fc-btn {
+        height: 40px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        width: 100%;
+    }
 
-        .profile-bio {
-            text-align: center;
-            color: #6c757d;
-            font-size: 16px;
-            margin: 30px auto;
-            max-width: 380px;
-            line-height: 1.6;
-            padding: 0 20px;
-        }
+    .fc-btn-primary {
+        background-color: var(--fc-primary);
+        color: white;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    }
 
-        .profile-menu {
-            max-width: 600px;
-            margin: 30px auto 0;
-        }
+    .fc-btn-primary:hover {
+        background-color: var(--fc-primary-hover);
+        box-shadow: 0 4px 12px rgba(250, 93, 25, 0.25);
+        color: white;
+    }
 
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 0;
-            border-top: 1px solid #e0e0e0;
-            cursor: pointer;
-        }
+    .fc-btn-secondary {
+        background-color: var(--fc-accent);
+        color: white;
+    }
 
-        .menu-item:last-child {
-            border-bottom: 1px solid #e0e0e0;
-        }
+    .fc-btn-secondary:hover {
+        background-color: #333;
+        color: white;
+    }
+    
+    .fc-btn-outline {
+        background: transparent;
+        border: 1px solid rgba(0,0,0,0.1);
+        color: var(--fc-text-primary);
+    }
+    
+    .fc-btn-outline:hover {
+        background: rgba(0,0,0,0.02);
+        border-color: rgba(0,0,0,0.2);
+    }
 
-        .menu-icon {
-            font-size: 20px;
-        }
+    /* Edit Panel (Slide-over) */
+    .fc-panel-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        backdrop-filter: blur(2px);
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
 
-        .menu-text {
-            font-size: 17px;
-        }
+    .fc-panel-overlay.open {
+        opacity: 1;
+        visibility: visible;
+    }
 
-        /* Right Slide Edit Panel */
-        .edit-panel {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            width: 420px;
-            height: 100vh;
-            background: white;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.15);
-            overflow-y: auto;
-            padding: 25px;
-            transition: 0.4s ease;
-            z-index: 2000;
-        }
+    .fc-edit-panel {
+        position: fixed;
+        top: 0;
+        right: -450px;
+        width: 100%;
+        max-width: 420px;
+        height: 100vh;
+        background: var(--fc-surface);
+        box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+        z-index: 1050;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+    }
 
-        .edit-panel.open {
-            right: 0;
-        }
+    .fc-edit-panel.open {
+        right: 0;
+    }
 
-        .edit-content {
-            padding-bottom: 50px;
-        }
+    .fc-panel-header {
+        padding: 24px;
+        border-bottom: 1px solid var(--fc-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .rounded-input {
-            border-radius: 20px;
-            padding: 10px 15px;
-        }
+    .fc-panel-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+    }
 
-        .edit-title {
-            font-weight: bold;
-            margin-bottom: 0;
-        }
+    .fc-close-btn {
+        background: none;
+        border: none;
+        color: var(--fc-text-text-secondary);
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        transition: background 0.2s;
+    }
 
-        .edit-profile-pic {
-            text-align: center;
-            margin-top: 15px;
-            margin-bottom: 20px;
-        }
+    .fc-close-btn:hover {
+        background: rgba(0,0,0,0.05);
+    }
 
-        .edit-profile-pic img {
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-        }
-    </style>
-</head>
+    .fc-panel-content {
+        padding: 32px 24px;
+        overflow-y: auto;
+        flex: 1;
+    }
 
-<body>
+    /* Form Styles */
+    .fc-form-group {
+        margin-bottom: 24px;
+    }
 
-    <!-- Top Navigation -->
-    <div class="top-nav-bar">
-        <div class="top-nav-content">
-            <div class="nav-title">Your Profile</div>
-            <div class="nav-links">
-                <a href="#" class="active">Your Profile</a>
-                <a href="#">Account Settings</a>
-            </div>
-        </div>
+    .fc-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: var(--fc-text-primary);
+    }
+
+    .fc-input {
+        width: 100%;
+        height: 40px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--fc-border);
+        background: var(--fc-surface);
+        font-family: inherit;
+        font-size: 14px;
+        transition: all 0.2s;
+        outline: none;
+    }
+
+    .fc-input:focus {
+        border-color: var(--fc-primary);
+        box-shadow: 0 0 0 3px var(--fc-focus-ring);
+    }
+
+    .fc-textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--fc-border);
+        font-family: inherit;
+        font-size: 14px;
+        resize: vertical;
+        outline: none;
+        transition: all 0.2s;
+    }
+
+    .fc-textarea:focus {
+        border-color: var(--fc-primary);
+        box-shadow: 0 0 0 3px var(--fc-focus-ring);
+    }
+    
+    /* Edit helper for avatar */
+    .fc-edit-avatar-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+    
+    .fc-edit-avatar-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 12px;
+        border: 1px solid var(--fc-border);
+    }
+    
+    .fc-link {
+        color: var(--fc-primary);
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+    }
+    
+    .fc-link:hover {
+        text-decoration: underline;
+    }
+
+</style>
+
+<div class="fc-container">
+    <div class="fc-header">
+        <h1 class="fc-title">Your Profile</h1>
+        <div class="fc-subtitle">Manage your personal information</div>
     </div>
 
-    <!-- Header -->
-    <div class="profile-header">
-        <h1 class="profile-name">@Model.DisplayName</h1>
-    </div>
-
-    <!-- White Content Area -->
-    <div class="profile-content">
-        <div class="profile-avatar-container">
-            <div class="profile-avatar">
-                <div class="butterfly-icon">🦋</div>
-            </div>
+    <div class="fc-card">
+        <div class="fc-avatar">
+            🦋
         </div>
-
-        <p class="profile-bio">
-           @Model.Bio
+        
+        <h2 class="fc-name">@Model.DisplayName</h2>
+        
+        <p class="fc-bio">
+            @if(string.IsNullOrEmpty(Model.Bio))
+            {
+                <span style="opacity: 0.5; font-style: italic;">No bio yet...</span>
+            }
+            else
+            {
+                @Model.Bio
+            }
         </p>
 
-        <div class="profile-menu">
-            <div class="menu-item">
-                <div class="menu-item-content">
-                    <i class="fa-regular fa-eye menu-icon"></i>
-                    <span class="menu-text">View public profile</span>
-                </div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
+        <div class="fc-actions">
+            <!-- View Public Profile -->
+            <a href="/Profile/PublicProfile" class="fc-btn fc-btn-secondary">
+                <i class="fa-regular fa-eye" style="margin-right: 8px;"></i> View public profile
+            </a>
 
-            <div class="menu-item" id="openEditProfile">
-                <div class="menu-item-content">
-                    <i class="fa-regular fa-pen-to-square menu-icon"></i>
-                    <span class="menu-text">Edit Profile</span>
-                </div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
+            <!-- Open Edit Panel -->
+            <button id="openEditProfile" class="fc-btn fc-btn-primary">
+                <i class="fa-regular fa-pen-to-square" style="margin-right: 8px;"></i> Edit Profile
+            </button>
         </div>
     </div>
+</div>
 
-    <!-- Right Side Edit Profile Panel -->
-    <div id="editProfilePanel" class="edit-panel">
-        <div class="edit-content">
+<!-- Backdrop -->
+<div id="panelOverlay" class="fc-panel-overlay"></div>
 
-            <div style="display: flex; justify-content: center; position: relative;">
-                <h4 class="edit-title">Edit Profile</h4>
-                <button id="closeEditProfile" class="btn-close"
-                    style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
-                </button>
-            </div>
-
-            <form asp-action="EditProfile" asp-controller="Profile" method="post">
-                <div class="edit-profile-pic">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg">
-                    <!-- CHANGED HERE: text-primary → text-dark -->
-                    <a href="#" class="d-block mt-2 text-dark">Change profile photo</a>
-                </div>
-
-                <label class="form-label">Display name</label>
-                <input class="form-control rounded-input mb-3" name="DisplayName" value="@Model.DisplayName">
-
-                <label class="form-label">Bio</label>
-                <textarea class="form-control rounded-input mb-3" name="Bio" rows="4">@Model.Bio</textarea>
-
-                <button type="submit" class="btn btn-dark rounded-pill w-100 mb-2">Save</button>
-                <button type="button" class="btn btn-outline-dark rounded-pill w-100" id="cancelEditProfile">Cancel</button>
-            </form>
-
-        </div>
+<!-- Right Slide Edit Panel -->
+<div id="editProfilePanel" class="fc-edit-panel">
+    <div class="fc-panel-header">
+        <h3 class="fc-panel-title">Edit Profile</h3>
+        <button id="closeEditProfile" class="fc-close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
     </div>
 
-    <script>
+    <div class="fc-panel-content">
+        <form asp-action="EditProfile" asp-controller="Profile" method="post">
+            <div class="fc-edit-avatar-container">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="fc-edit-avatar-img">
+                <a href="#" class="fc-link">Change profile photo</a>
+            </div>
+
+            <div class="fc-form-group">
+                <label class="fc-label">Display Name</label>
+                <input class="fc-input" name="DisplayName" value="@Model.DisplayName" placeholder="Enter your name">
+            </div>
+
+            <div class="fc-form-group">
+                <label class="fc-label">Bio</label>
+                <textarea class="fc-textarea" name="Bio" rows="4" placeholder="Tell us about yourself">@Model.Bio</textarea>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <button type="submit" class="fc-btn fc-btn-primary" style="margin-bottom: 12px;">Save Changes</button>
+                <button type="button" class="fc-btn fc-btn-outline" id="cancelEditProfile">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
         const openBtn = document.getElementById("openEditProfile");
         const closeBtn = document.getElementById("closeEditProfile");
         const cancelBtn = document.getElementById("cancelEditProfile");
         const panel = document.getElementById("editProfilePanel");
+        const overlay = document.getElementById("panelOverlay");
 
-        openBtn.addEventListener("click", () => {
+        function openPanel() {
             panel.classList.add("open");
-        });
+            overlay.classList.add("open");
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
 
-        closeBtn.addEventListener("click", () => {
+        function closePanel() {
             panel.classList.remove("open");
-        });
+            overlay.classList.remove("open");
+            document.body.style.overflow = '';
+        }
 
-        cancelBtn.addEventListener("click", () => {
-            panel.classList.remove("open");
-        });
-    </script>
-
-</body>
-</html>
+        if(openBtn) openBtn.addEventListener("click", openPanel);
+        if(closeBtn) closeBtn.addEventListener("click", closePanel);
+        if(cancelBtn) cancelBtn.addEventListener("click", closePanel);
+        if(overlay) overlay.addEventListener("click", closePanel);
+    });
+</script>

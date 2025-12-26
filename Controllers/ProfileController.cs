@@ -82,5 +82,53 @@ namespace MyMvcAuthProject.Controllers
 
             return RedirectToAction("UserProfile");
         }
+
+        [Authorize]
+        [HttpGet("Profile/PublicProfile")]
+        public async Task<IActionResult> PublicProfile()
+        {
+            var userId = _userManager.GetUserId(User);
+            
+            var userProfileRepository = new UserProfileRepository(_supabase);
+            var userProfile = await userProfileRepository.GetUserByUserId(userId);
+            
+            if (userProfile == null)
+            {
+                userProfile = new UserProfile
+                {
+                    UserId = userId,
+                    DisplayName = "Reader",
+                    Bio = "",
+                    UserImage = "https://randomuser.me/api/portraits/lego/1.jpg"
+                };
+            }
+
+            var reviewRepository = new ReviewRepository(_supabase);
+            var reviews = await reviewRepository.GetUserReviewsAsync(userId);
+            
+            var postRepository = new PostRepository(_supabase);
+            var posts = await postRepository.GetUserPostsAsync(userId);
+            
+            var bookRepository = new BookRepository(_supabase);
+            var userListsIds = await userProfileRepository.GetUserListsAsync(userId);
+            
+            var booksLists = new Dictionary<string, List<Book>>();
+            foreach(var kvp in userListsIds)
+            {
+                var books = await bookRepository.GetBooksByIds(kvp.Value);
+                booksLists[kvp.Key] = books;
+            }
+
+            var viewModel = new PublicProfileViewModel
+            {
+                Profile = userProfile,
+                Reviews = reviews ?? new List<Review>(),
+                Posts = posts ?? new List<Post>(),
+                BooksLists = booksLists
+            };
+
+            return View(viewModel);
+        }
+       
     }
 }

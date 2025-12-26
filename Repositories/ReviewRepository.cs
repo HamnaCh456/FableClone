@@ -39,6 +39,17 @@ namespace MyMvcAuthProject.Repositories
                 .Insert(newReview);        
                       
             return result.Models.FirstOrDefault();        
-        }      
+        }   
+        public async Task<List<Review>> GetUserReviewsAsync(string userId)  
+        {  
+            var response = await _supabase  
+                .From<Review>()  
+                .Where(x => x.UserId == userId)  
+                .Get();  
+            
+            return response.Models;  
+        }  
+
+
     }        
 }

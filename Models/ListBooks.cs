@@ -7,9 +7,11 @@ namespace MyMvcAuthProject.Models
     public class ListBooks : BaseModel  
     {  
         [PrimaryKey("list_id")]  
+        [Column("list_id")]
         public Guid ListId { get; set; }  
   
         [PrimaryKey("book_id")]  
+        [Column("book_id")]
         public Guid BookId { get; set; }  
     }  
 }

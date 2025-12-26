@@ -190,8 +190,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlcnNcUHJvZmlsZUNvbnRyb2xsZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Admin/AddBook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkQm9vay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Author/AuthorProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aG9yXEF1dGhvclByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Author/SearchAuthors.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aG9yXFNlYXJjaEF1dGhvcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Author/_AuthorSearchResults.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aG9yXF9BdXRob3JTZWFyY2hSZXN1bHRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Book/Explorebooks.cshtml]
@@ -240,6 +252,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Post/AddPosts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxBZGRQb3N0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Profile/PublicProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxQdWJsaWNQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/LENOVO/Desktop/Web_technologies/smesterProjectAuthentication/MyMvcAuthProject/Views/Profile/UserProfile.cshtml]

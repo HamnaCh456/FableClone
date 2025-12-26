@@ -5,276 +5,402 @@
 }
 
 <style>
-    /* Secondary Navigation */
+    /* Firecrawl Design System Implementation */
+    :root {
+        --fc-primary: #FA5D19;
+        --fc-primary-hover: #e04e10;
+        --fc-black: #000000;
+        --fc-bg: #F9F9F9;
+        --fc-text-primary: #262626;
+        --fc-text-secondary: rgba(38, 38, 38, 0.6);
+        --fc-border: rgba(0, 0, 0, 0.08);
+        --fc-font-sans: 'Suisse Int\'l', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .book-details-container {
+        font-family: var(--fc-font-sans);
+        color: var(--fc-text-primary);
+        background-color: var(--fc-bg);
+        min-height: 100vh;
+        /* Grid Pattern */
+        background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+
+    /* Secondary Navigation (Tabs) */
     .secondary-nav {
-        border-bottom: 1px solid #dee2e6;
-        padding: 0 8rem;
-        margin-top: 0;
+        border-bottom: 1px solid var(--fc-border);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0 2rem;
     }
 
     .secondary-nav-content {
+        max-width: 1200px;
+        margin: 0 auto;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: flex-start;
     }
 
     .secondary-nav .nav {
         display: flex;
-        gap: 2.5rem;
+        gap: 2rem;
         margin: 0;
         padding: 0;
+        list-style: none;
     }
 
     .secondary-nav .nav-link {
-        color: #999 !important;
-        border-bottom: 3px solid transparent;
-        padding: 1rem 0 !important;
-        font-size: 0.9rem;
-        font-weight: 400;
+        color: var(--fc-text-secondary) !important;
+        border-bottom: 2px solid transparent;
+        padding: 1rem 0.5rem !important;
+        font-size: 0.95rem;
+        font-weight: 500;
         cursor: pointer;
-    }
-
-    .secondary-nav .nav-link.active {
-        color: #000 !important;
-        border-bottom-color: #000;
+        transition: all 0.2s ease;
+        background: none !important;
     }
 
     .secondary-nav .nav-link:hover {
-        color: #000 !important;
+        color: var(--fc-text-primary) !important;
+    }
+
+    .secondary-nav .nav-link.active {
+        color: var(--fc-text-primary) !important;
+        border-bottom-color: var(--fc-primary);
     }
 
     /* Main Content */
-    .main-content {
-        padding: 3rem 8rem;
+    .main-content-area {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 2rem;
     }
 
     .book-section {
         display: flex;
         gap: 4rem;
+        align-items: flex-start;
     }
 
     /* Left Column */
     .left-column {
-        flex: 0 0 280px;
+        flex: 0 0 260px;
+        display: flex;
+        flex-direction: column;
     }
 
     .rating {
-        color: #000;
-        font-size: 0.85rem;
+        color: var(--fc-text-primary);
+        font-size: 0.9rem;
+        font-weight: 500;
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
-        gap: 0.3rem;
+        gap: 0.4rem;
     }
 
     .rating i {
-        color: #000;
+        color: var(--fc-primary);
     }
 
     .book-title {
-        font-size: 2.5rem;
-        font-weight: 300;
-        margin-bottom: 0.5rem;
-        font-family: 'Times New Roman', serif;
+        font-size: 2.25rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
         line-height: 1.2;
+        margin-bottom: 0.5rem;
+        color: #262626;
+        font-family: var(--fc-font-sans); /* Ensure overriding any TNR defaults */
     }
 
     .author-name {
-        font-size: 1rem;
-        color: #666;
-        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        color: var(--fc-text-secondary);
+        margin-bottom: 2rem;
+        font-weight: 450;
     }
 
     .author-name a {
-        color: #666;
+        color: var(--fc-text-primary);
         text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        transition: border-color 0.2s;
     }
 
     .author-name a:hover {
-        text-decoration: underline;
+        border-bottom-color: var(--fc-primary);
     }
 
     .book-cover {
         width: 100%;
-        max-width: 220px;
+        max-width: 240px;
         height: auto;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        border-radius: 4px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         margin-bottom: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .book-cover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.12);
     }
 
     .action-buttons {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        max-width: 220px;
+        gap: 1rem;
+        width: 100%;
+        max-width: 240px;
     }
 
+    /* Primary CTA */
     .want-to-read-btn {
-        background: #2b2b2b;
+        background: var(--fc-primary);
         color: white;
         border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 25px;
+        padding: 0 1.5rem;
+        height: 44px;
+        border-radius: 999px; /* Pill */
         font-size: 0.95rem;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-    }
-
-    .want-to-read-btn:hover {
-        background: #000;
-    }
-
-    /* Right Column */
-    .right-column {
-        flex: 1;
-    }
-
-    /* Tab Content */
-    .tab-content {
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         width: 100%;
     }
 
-    .tab-pane {
-        display: none;
+    .want-to-read-btn:hover {
+        background: var(--fc-primary-hover);
+        box-shadow: 0 4px 12px rgba(250, 93, 25, 0.25);
+        transform: translateY(-1px);
+    }
+    
+    /* Dropdown overrides */
+    .dropdown-menu {
+        border: 1px solid var(--fc-border);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        padding: 0.5rem;
+        min-width: 200px;
+    }
+    
+    .dropdown-item {
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: var(--fc-text-primary);
+    }
+    
+    .dropdown-item:hover {
+        background-color: rgba(0,0,0,0.03);
+        color: var(--fc-primary);
     }
 
-    .tab-pane.active {
-        display: block;
+    /* Right Column */
+    .right-column-content {
+        flex: 1;
+        background: white;
+        padding: 2.5rem;
+        border-radius: 24px;
+        border: 1px solid var(--fc-border);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
-    /* FIXED MEDIA QUERY */
+    /* Typography for content inside tabs */
+    .tab-content h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.01em;
+        font-family: var(--fc-font-sans);
+    }
+    
+    .tab-content p {
+        line-height: 1.6;
+        color: var(--fc-text-primary);
+        font-family: var(--fc-font-sans);
+    }
+
+    /* Responsive */
     @@media (max-width: 992px) {
-        .main-content, .secondary-nav {
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
         .book-section {
             flex-direction: column;
         }
         .left-column {
             flex: 1;
+            width: 100%;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .action-buttons {
+            max-width: 300px;
+        }
+        .right-column-content {
+            width: 100%;
+        }
+        .book-title {
+            margin-top: 1rem;
         }
     }
 </style>
 
-<input type="hidden" id="AuthorIdValue" value="@Model.AuthorId" />
+<div class="book-details-container">
+    <input type="hidden" id="AuthorIdValue" value="@Model.AuthorId" />
 
-<!-- Secondary Navigation -->
-<div class="secondary-nav">
-    <div class="secondary-nav-content">
-        <ul class="nav" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab">Reviews</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="author-tab" data-bs-toggle="tab" href="#author" role="tab">Author</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="start-club-tab" data-bs-toggle="tab" href="#start-club" role="tab">Start a club</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="faq-tab" data-bs-toggle="tab" href="#faq" role="tab">FAQ</a>
-            </li>
-        </ul>
+    <!-- Secondary Navigation -->
+    <div class="secondary-nav">
+        <div class="secondary-nav-content">
+            <ul class="nav" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="author-tab" data-bs-toggle="tab" href="#author" role="tab">Author</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="start-club-tab" data-bs-toggle="tab" href="#start-club" role="tab">Start a club</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="faq-tab" data-bs-toggle="tab" href="#faq" role="tab">FAQ</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 
-<!-- MAIN CONTENT -->
-<div class="main-content">
-    <div class="book-section" id="bookSection">
+    <!-- MAIN CONTENT -->
+    <div class="main-content-area">
+        <div class="book-section" id="bookSection">
 
-        <!-- LEFT (Hidden on Author tab) -->
-        <div class="left-column" id="leftColumn">
-            <div class="rating">
-                <i class="fas fa-star"></i> @Model.Rating
+            <!-- LEFT -->
+            <div class="left-column" id="leftColumn">
+                
+                <!-- Dynamically loaded book cover -->
+                <img src="@Model.BookURL"
+                     alt="@Model.Title Book Cover"
+                     class="book-cover">
+
+                <div class="rating">
+                    <i class="fas fa-star"></i> <span>@Model.Rating</span>
+                </div>
+
+                <h1 class="book-title">@Model.Title</h1>
+
+                <p class="author-name">By <a href="#">@ViewBag.Author.Name</a></p>
+
+                <div class="action-buttons">
+                    <div class="dropdown">
+                        <button class="want-to-read-btn dropdown-toggle" type="button" id="bookListDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Want to read
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="bookListDropdown">
+                             <li><a class="dropdown-item add-to-list-item" href="#" data-list="Want to Read">Want to Read</a></li>
+                             <li><a class="dropdown-item add-to-list-item" href="#" data-list="Currently Reading">Currently Reading</a></li>
+                             <li><a class="dropdown-item add-to-list-item" href="#" data-list="Finished">Finished</a></li>
+                             <li><a class="dropdown-item add-to-list-item" href="#" data-list="Did Not Finish">Did Not Finish</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <h1 class="book-title">@Model.Title</h1>
+            <!-- RIGHT -->
+            <div class="right-column-content" id="rightColumn">
+                <!-- Tab Content -->
+                <div class="tab-content" id="myTabContent">
+                    <!-- About Tab -->
+                    <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                        @await Html.PartialAsync("_AboutPartial", Model)
+                    </div>
 
-            <p class="author-name">By <a href="#">@ViewBag.Author.Name</a></p>
+                    <!-- Reviews Tab -->
+                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        @await Html.PartialAsync("_ReviewPartial", Model)
+                    </div>
 
-            <!-- Dynamically loaded book cover -->
-            <img src="@Model.BookURL"
-                 alt="@Model.Title Book Cover"
-                 class="book-cover">
+                    <!-- Author Tab -->
+                    <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab">
+                        @await Html.PartialAsync("_AuthorPartial")
+                    </div>
 
-            <div class="action-buttons">
-                <button class="want-to-read-btn">
-                    Want to read <i class="fas fa-chevron-down"></i>
-                </button>
+                    <!-- Start a Club Tab -->
+                    <div class="tab-pane fade" id="start-club" role="tabpanel" aria-labelledby="start-club-tab">
+                        <h2>Start a Book Club</h2>
+                        <p>Book club information coming soon...</p>
+                    </div>
+
+                    <!-- FAQ Tab -->
+                    <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+                        <h2>FAQ</h2>
+                        <p>Frequently asked questions coming soon...</p>
+                    </div>
+                </div>
             </div>
+
         </div>
-
-        <!-- RIGHT -->
-        <div class="right-column" id="rightColumn">
-            <!-- Tab Content -->
-            <div class="tab-content" id="myTabContent">
-                <!-- About Tab -->
-                <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
-                    @await Html.PartialAsync("_AboutPartial", Model)
-                </div>
-
-                <!-- Reviews Tab -->
-                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                    @await Html.PartialAsync("_ReviewPartial", Model)
-                </div>
-
-                <!-- Author Tab -->
-                <div class="tab-pane fade" id="author" role="tabpanel" aria-labelledby="author-tab">
-                    @await Html.PartialAsync("_AuthorPartial")
-                </div>
-
-                <!-- Start a Club Tab -->
-                <div class="tab-pane fade" id="start-club" role="tabpanel" aria-labelledby="start-club-tab">
-                    <h2 style="font-size: 1.75rem; font-family: 'Times New Roman', serif;">Start a Book Club</h2>
-                    <p>Book club information coming soon...</p>
-                </div>
-
-                <!-- FAQ Tab -->
-                <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
-                    <h2 style="font-size: 1.75rem; font-family: 'Times New Roman', serif;">FAQ</h2>
-                    <p>Frequently asked questions coming soon...</p>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 
 <script>
     // Handle tab switching to hide/show left column
     document.addEventListener('DOMContentLoaded', function() {
-        const authorTab = document.getElementById('author-tab');
-        const reviewsTab = document.getElementById('reviews-tab');
-        const allTabs = document.querySelectorAll('[data-bs-toggle="tab"]');
         const leftColumn = document.getElementById('leftColumn');
         const rightColumn = document.getElementById('rightColumn');
         const bookSection = document.getElementById('bookSection');
+        const allTabs = document.querySelectorAll('[data-bs-toggle="tab"]');
 
         allTabs.forEach(tab => {
             tab.addEventListener('shown.bs.tab', function(e) {
                 if (e.target.id === 'author-tab' || e.target.id === 'reviews-tab') {
-                    // Hide left column when Author or Reviews tab is active
-                    leftColumn.style.display = 'none';
-                    rightColumn.style.flex = '1';
-                    rightColumn.style.maxWidth = '100%';
-                    bookSection.style.justifyContent = 'center';
+                    // Hide left column when Author or Reviews tab is active if you want full width for those
+                    // Keeping previous logic but improved for flex
+                    if(leftColumn) leftColumn.style.display = 'none';
+                    if(rightColumn) {
+                        rightColumn.style.flex = '1';
+                        rightColumn.style.maxWidth = '100%';
+                    }
                 } else {
                     // Show left column for other tabs
-                    leftColumn.style.display = 'block';
-                    rightColumn.style.flex = '1';
-                    rightColumn.style.maxWidth = 'none';
-                    bookSection.style.justifyContent = 'flex-start';
+                    if(leftColumn) leftColumn.style.display = 'flex';
+                    if(rightColumn) {
+                        rightColumn.style.flex = '1';
+                    }
                 }
+            });
+        });
+    });
+
+    document.querySelectorAll('.add-to-list-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const listName = this.getAttribute('data-list');
+            const bookId = '@Model.BookId'; 
+
+            fetch('/Book/AddBookToList?bookId=' + bookId + '&listName=' + encodeURIComponent(listName), {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Book added to ' + listName);
+                } else {
+                    response.text().then(text => alert('Failed: ' + text));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error processing request');
             });
         });
     });

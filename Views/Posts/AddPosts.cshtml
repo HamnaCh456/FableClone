@@ -2,134 +2,300 @@
     ViewData["Title"] = "Posts";
 }
 
-<div id="postsContainer">
+<div class="firecrawl-layout">
     <style>
+        /* Typography & Variables */
+        :root {
+            --fc-primary: #FA5D19;
+            --fc-primary-rgb: 250, 93, 25;
+            --fc-accent: #000000;
+            --fc-bg: #F9F9F9;
+            --fc-surface: #FFFFFF;
+            --fc-text-primary: #262626;
+            --fc-text-secondary: rgba(38, 38, 38, 0.4);
+            --fc-border: rgba(0, 0, 0, 0.08);
+            --fc-shadow-card: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --fc-shadow-btn: 0px 1px 2px rgba(0, 0, 0, 0.05);
+            --fc-shadow-btn-hover: 0 4px 12px rgba(250, 93, 25, 0.25);
+            --fc-radius-card: 24px;
+            --fc-radius-btn: 999px;
+            --fc-radius-input: 8px;
+            --fc-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --fc-mono-family: 'Geist Mono', Consolas, monospace;
+        }
+
+        .firecrawl-layout {
+            font-family: var(--fc-font-family);
+            color: var(--fc-text-primary);
+            background-color: var(--fc-bg);
+            /* Blueprint Grid Pattern */
+            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .firecrawl-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header Area */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0;
+            color: var(--fc-accent);
+        }
+
+        /* Buttons */
+        .btn-firecrawl {
+            height: 40px;
+            padding: 0 24px;
+            border-radius: var(--fc-radius-btn);
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-primary-fc {
+            background-color: var(--fc-primary);
+            color: white;
+            box-shadow: var(--fc-shadow-btn);
+        }
+        .btn-primary-fc:hover {
+            box-shadow: var(--fc-shadow-btn-hover);
+            transform: translateY(-1px);
+            color: white;
+        }
+        .btn-primary-fc:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary-fc {
+            background-color: var(--fc-accent);
+            color: white;
+            box-shadow: var(--fc-shadow-btn);
+        }
+        .btn-secondary-fc:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            color: white;
+        }
+
+        .btn-ghost-fc {
+            background-color: transparent;
+            color: var(--fc-text-primary);
+            border: 1px solid var(--fc-border);
+        }
+        .btn-ghost-fc:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        /* Post Card */
         .post-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            padding: 20px;
-            margin-bottom: 25px;
+            background: var(--fc-surface);
+            border-radius: var(--fc-radius-card);
+            box-shadow: var(--fc-shadow-card);
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid var(--fc-border);
+            transition: transform 0.2s ease;
+        }
+        .post-card:hover {
+            transform: translateY(-2px);
         }
 
         .post-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 10px;
+            gap: 16px;
+            margin-bottom: 16px;
         }
 
-            .post-header img {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                object-fit: cover;
-            }
-
-            .post-header .name {
-                font-weight: 600;
-                font-size: 1.1rem;
-            }
-
-            .post-header .time {
-                color: #888;
-                font-size: 0.9rem;
-            }
-
-        .tag {
-            background-color: #198754;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 25px;
-            font-size: 0.8rem;
-            margin: 4px 6px 0 0;
-            display: inline-block;
+        .post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--fc-bg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .btn-add-post {
-            background-color: #000;
-            color: #fff;
-            border-radius: 25px;
-            padding: 8px 20px;
+        .post-meta {
+            display: flex;
+            flex-direction: column;
+        }
+        .post-author {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--fc-text-primary);
+        }
+        .post-time {
+            font-size: 12px;
+            color: var(--fc-text-secondary);
             font-weight: 500;
-            transition: all 0.3s;
-            border: none;
-            margin-bottom: 20px;
         }
 
-            .btn-add-post:hover {
-                background-color: #333;
-                color: #fff;
-            }
+        .post-content {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--fc-text-primary);
+            margin-bottom: 16px;
+            white-space: pre-wrap;
+        }
 
-        #addPostForm {
-            background: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
-            display: none;
+        /* Tags */
+        .tag-pill {
+            display: inline-block;
+            background-color: rgba(250, 93, 25, 0.08);
+            color: var(--fc-primary);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        /* Form Area */
+        #addPostFormSection {
+            background: var(--fc-surface);
+            padding: 32px;
+            border-radius: var(--fc-radius-card);
+            box-shadow: var(--fc-shadow-card);
+            margin-bottom: 32px;
+            border: 1px solid var(--fc-border);
+            display: none; /* Initially hidden */
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @@keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-label-fc {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--fc-text-primary);
+            font-size: 14px;
+        }
+
+        .form-control-fc {
+            width: 100%;
+            background: var(--fc-surface);
+            border: 1px solid var(--fc-border);
+            border-radius: var(--fc-radius-input);
+            padding: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+            resize: vertical;
+        }
+        .form-control-fc:focus {
+            outline: none;
+            border-color: var(--fc-primary);
+            box-shadow: 0 0 0 3px rgba(250, 93, 25, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            justify-content: flex-end;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--fc-text-secondary);
         }
     </style>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold mb-0">Posts</h3>
-        <button class="btn btn-add-post" onclick="togglePostForm()">Add Post</button>
-    </div>
+    <div class="firecrawl-container">
+        <div class="page-header">
+            <h3 class="page-title">Community Posts</h3>
+            <button class="btn-firecrawl btn-primary-fc" onclick="togglePostForm()">
+                Add Post
+            </button>
+        </div>
 
-    <!-- Add Post Form -->
-    <div id="addPostFormSection">
-        <form id="addPostForm" method="post" asp-controller="Post" asp-action="AddPost">
-            @Html.AntiForgeryToken()
-            <div class="mb-3">
-                <label class="form-label fw-bold">Share Your Thoughts</label>
-                <textarea name="postContent" class="form-control" rows="4" placeholder="What's on your mind about books?" required></textarea>
-            </div>
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-dark rounded-pill px-4">Post</button>
-                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="togglePostForm()">Cancel</button>
-            </div>
-        </form>
-    </div>
+        <!-- Add Post Form -->
+        <div id="addPostFormSection">
+            <form id="addPostForm" method="post" asp-controller="Post" asp-action="AddPost">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label class="form-label-fc">Share Your Thoughts</label>
+                    <textarea name="postContent" class="form-control-fc" rows="4" placeholder="What's on your mind about books?" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-firecrawl btn-ghost-fc" onclick="togglePostForm()">Cancel</button>
+                    <button type="submit" class="btn-firecrawl btn-secondary-fc">Post Update</button>
+                </div>
+            </form>
+        </div>
 
-    @if (ViewBag.Posts != null && ((IEnumerable<dynamic>)ViewBag.Posts).Any())
-    {
-        @foreach (var post in ViewBag.Posts)
+        @if (ViewBag.Posts != null && ((IEnumerable<dynamic>)ViewBag.Posts).Any())
         {
-            <div class="post-card">
-                <div class="post-header">
-                    <img src="@(ViewBag.UserImages != null && ViewBag.UserImages.ContainsKey(post.UserId) ? ViewBag.UserImages[post.UserId] : "https://randomuser.me/api/portraits/lego/1.jpg")" alt="User">
-                    <div>
-                        <div class="name">
-                            @(ViewBag.UserDisplayNames != null && ViewBag.UserDisplayNames.ContainsKey(post.UserId) ? ViewBag.UserDisplayNames[post.UserId] : "Anonymous User")
+            @foreach (var post in ViewBag.Posts)
+            {
+                <div class="post-card">
+                    <div class="post-header">
+                        <img class="post-avatar" src="@(ViewBag.UserImages != null && ViewBag.UserImages.ContainsKey(post.UserId) ? ViewBag.UserImages[post.UserId] : "https://randomuser.me/api/portraits/lego/1.jpg")" alt="User">
+                        <div class="post-meta">
+                            <div class="post-author">
+                                @(ViewBag.UserDisplayNames != null && ViewBag.UserDisplayNames.ContainsKey(post.UserId) ? ViewBag.UserDisplayNames[post.UserId] : "Anonymous User")
+                            </div>
+                            <div class="post-time">Book Enthusiast</div>
                         </div>
-                        <div class="time">Book Enthusiast</div>
+                    </div>
+
+                    <div class="post-content">@post.PostContent</div>
+
+                    <div class="post-footer">
+                        <span class="tag-pill">Thoughtful</span>
+                        <span class="tag-pill">Book Lover</span>
                     </div>
                 </div>
-
-                <p>@post.PostContent</p>
-
-                <div class="mt-3">
-                    <span class="tag">Thoughtful</span>
-                    <span class="tag">Book Lover</span>
-                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <p>No posts yet. Be the first to share your thoughts!</p>
             </div>
         }
-    }
-    else
-    {
-        <div class="text-center py-5">
-            <p class="text-muted">No posts yet. Be the first to share your thoughts!</p>
-        </div>
-    }
+    </div>
 
     <script>
         function togglePostForm() {
-            const form = document.getElementById('addPostForm');
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
+            const formSection = document.getElementById('addPostFormSection');
+            if (!formSection) return;
+            
+            if (formSection.style.display === 'none' || getComputedStyle(formSection).display === 'none') {
+                formSection.style.display = 'block';
+                // Try to focus textarea
+                const textarea = formSection.querySelector('textarea');
+                if(textarea) textarea.focus();
             } else {
-                form.style.display = 'none';
+                formSection.style.display = 'none';
             }
         }
 

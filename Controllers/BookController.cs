@@ -5,11 +5,24 @@ using MyMvcAuthProject.Data;
 using Supabase;
 using MyMvcAuthProject.Repositories;
 using MyMvcAuthProject.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using MyMvcAuthProject.Models;
+using MyMvcAuthProject.Data;
+using Supabase;
+using MyMvcAuthProject.Repositories;
+using MyMvcAuthProject.ViewModels;
 
 namespace MyMvcAuthProject.Controllers
 {
     public class BookController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public BookController(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
         [HttpGet("Book/{name?}")]
         public async Task<IActionResult> Index(string? name = null)
         {
@@ -131,6 +144,34 @@ namespace MyMvcAuthProject.Controllers
             
         }
 
+        [Authorize]
+        [HttpPost("Book/AddBookToList")]
+        public async Task<IActionResult> AddBookToList(Guid bookId, string listName)
+        {
+             var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
+             var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
+             
+             var options = new SupabaseOptions
+             {
+                 AutoConnectRealtime = true
+             };
+             
+             var supabase = new Client(url, key, options);
+             await supabase.InitializeAsync();
+             
+             var userId = _userManager.GetUserId(User);
+             var userProfileRepository = new UserProfileRepository(supabase);
+             
+             try
+             {
+                 await userProfileRepository.AddBookToListAsync(userId, bookId, listName);
+                 return Ok("Book added to list successfully.");
+             }
+             catch (Exception ex)
+             {
+                 return BadRequest(ex.Message);
+             }
+        }
     }
 }
 

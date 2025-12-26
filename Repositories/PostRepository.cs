@@ -31,5 +31,14 @@ namespace MyMvcAuthProject.Repositories
             var response = await _supabase.From<Post>().Get();  
             return response.Models;  
         }
+         public async Task<List<Post>> GetUserPostsAsync(string userId)  
+         {  
+            var response = await _supabase  
+                  .From<Post>()  
+                  .Where(x => x.UserId == userId)  
+                  .Get();  
+               
+            return response.Models;  
+      }  
     }
 }

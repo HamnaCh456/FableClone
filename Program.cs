@@ -63,6 +63,17 @@ builder.Services.AddAuthorization(options =>
 // Add SignalR
 builder.Services.AddSignalR();
 
+// Register Supabase Client as a singleton service
+var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
+var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
+var options = new SupabaseOptions
+{
+    AutoConnectRealtime = true
+};
+var supabaseClient = new Supabase.Client(url, key, options);
+await supabaseClient.InitializeAsync();
+builder.Services.AddSingleton(supabaseClient);
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -92,20 +103,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 app.MapHub<MyMvcAuthProject.Hubs.NotificationHub>("/notificationHub");
-
-  
-var url ="https://phqjkkhovqndiyyuwljc.supabase.co";  
-var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";  
-  
-var options = new SupabaseOptions  
-{  
-    AutoConnectRealtime = true  
-};  
-  
-var supabase = new Client(url, key, options);  
-await supabase.InitializeAsync();  
-  
-// Use the repository  
-
 
 app.Run();

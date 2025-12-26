@@ -5,20 +5,15 @@
 
 document.addEventListener('DOMContentLoaded', function () {
    const sidebar = document.getElementById('appSidebar');
+   const mainContent = document.querySelector('.main-content');
    const toggleBtn = document.getElementById('sidebarToggle');
 
    if (sidebar && toggleBtn) {
       toggleBtn.addEventListener('click', function (e) {
-         e.stopPropagation(); // Prevent document click from immediately closing it if we implemented outside click logic
-         sidebar.classList.toggle('expanded');
-      });
-
-      // Optional: Close sidebar when clicking outside (on main content)
-      document.addEventListener('click', function (e) {
-         if (sidebar.classList.contains('expanded') &&
-            !sidebar.contains(e.target) &&
-            e.target !== toggleBtn) {
-            sidebar.classList.remove('expanded');
+         e.stopPropagation();
+         sidebar.classList.toggle('collapsed');
+         if (mainContent) {
+            mainContent.classList.toggle('expanded');
          }
       });
    }

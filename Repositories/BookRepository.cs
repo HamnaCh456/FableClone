@@ -60,10 +60,23 @@ namespace MyMvcAuthProject.Repositories
             book.BookId = Guid.NewGuid();
             var result = await _supabase
                 .From<Book>()
-                .Insert(book);
+                .Upsert(book);
 
             return result.Models.FirstOrDefault();
         }
-    }  
-   
+
+        public async Task<List<Book>> GetBooksByIds(List<Guid> bookIds)    
+        {    
+            if (bookIds == null || !bookIds.Any())    
+                return new List<Book>();    
+          
+            var response = await _supabase    
+                .From<Book>()    
+                .Select("book_id, title, price, rating, description, label, author_id, BookURL")    
+                .Filter(x => x.BookId, Supabase.Postgrest.Constants.Operator.In, bookIds.Cast<object>().ToList())    
+                .Get();    
+      
+            return response.Models;    
+        }
+    }
 }

@@ -2,14 +2,15 @@ using MyMvcAuthProject.Models;
 using Supabase;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Supabase.Postgrest;  
 
 namespace MyMvcAuthProject.Repositories
 {
     public class AuthorRepository
     {
-        private readonly Client _supabase;
+        private readonly Supabase.Client _supabase; 
 
-        public AuthorRepository(Client supabase)
+        public AuthorRepository(Supabase.Client supabase)
         {
             _supabase = supabase;
         }
@@ -49,9 +50,23 @@ namespace MyMvcAuthProject.Repositories
             author.AuthorId = Guid.NewGuid();
             var result = await _supabase
                 .From<Author>()
-                .Insert(author);
+                .Upsert(author);
 
             return result.Models.FirstOrDefault();
         }
+
+        public async Task<List<Author>> SearchAuthorsByName(string authorName)  
+        {  
+            if (string.IsNullOrWhiteSpace(authorName))  
+                return new List<Author>();  
+  
+            var result = await _supabase  
+                .From<Author>()  
+            .Select("author_id, name, bio, author_image")  
+            .Filter(x => x.Name, Supabase.Postgrest.Constants.Operator.ILike, $"%{authorName}%")  
+            .Get();  
+          
+            return result.Models;  
+        }  
     }
 }

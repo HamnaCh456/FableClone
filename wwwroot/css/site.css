@@ -1,28 +1,231 @@
-@import 'modern.css';
+/*------------------------------*/
+/* FIRECRAWL.DEV INSPIRED THEME */
+/*------------------------------*/
 
-html {
+/* Font Setup (fallback since Suisse Intl is custom) */
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "BlinkMacSystemFont", sans-serif;
+  background-color: #F9F9F9;
+  color: #262626;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Links */
+a {
+  color: #FA5D19;
+  text-decoration: none;
+  font-weight: 500;
+}
+a:hover {
+  opacity: 0.8;
+}
+
+/*------------------------------*/
+/* SIDEBAR */
+/*------------------------------*/
+
+.sidebar {
+  width: 72px;
+  background: #FFFFFF;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 1px solid rgba(0,0,0,0.08);
+  transition: width 0.2s ease-in-out;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.expanded {
+  width: 240px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.sidebar-toggle-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.brand-link span {
+  font-size: 20px;
+  font-weight: 700;
+  color: #262626;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.sidebar.expanded .brand-link span {
+  opacity: 1;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.nav-link-custom {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  color: rgba(38,38,38,0.7);
+  transition: all 0.2s ease-in-out;
+  font-weight: 450;
+}
+.nav-link-custom:hover {
+  background: rgba(250,93,25,0.06);
+  color: #FA5D19;
+}
+.nav-link-custom span {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+.sidebar.expanded .nav-link-custom span {
+  opacity: 1;
+}
+
+/*------------------------------*/
+/* MAIN CONTENT + TOPBAR */
+/*------------------------------*/
+
+.main-content {
+  margin-left: 72px;
+  transition: margin-left 0.2s ease-in-out;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.expanded + .main-content {
+  margin-left: 240px;
+}
+
+.topbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: #FFFFFF;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-panel {
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  background: #FFFFFF;
+  padding-bottom: 10px;
+}
+
+/*------------------------------*/
+/* BUTTONS */
+/*------------------------------*/
+
+button,
+.btn-primary {
+  background: #FA5D19;
+  color: #FFFFFF;
+  border-radius: 999px;
+  height: 40px;
+  border: none;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.05);
+}
+button:hover {
+  box-shadow: 0 4px 12px rgba(250, 93, 25, 0.25);
+  transform: scale(1.02);
+}
+button:active {
+  transform: scale(0.98);
+}
+
+/*------------------------------*/
+/* INPUTS */
+/*------------------------------*/
+
+input,
+select,
+textarea {
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0,0,0,0.08);
+  outline: none;
+  transition: all 0.2s ease;
   font-size: 14px;
 }
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+input:focus {
+  border-color: #FA5D19;
+  box-shadow: 0 0 0 3px rgba(250,93,25,0.12);
 }
 
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/*------------------------------*/
+/* CONTENT WRAPPER */
+/*------------------------------*/
+
+.content-wrapper {
+  padding: 40px;
+  padding-left: 60px;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/*------------------------------*/
+/* FOOTER */
+/*------------------------------*/
+
+.footer {
+  background: #FFFFFF;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding: 20px;
+  text-align: center;
+  font-size: 12px;
 }
 
-body {
-  margin-bottom: 60px;
+/*------------------------------*/
+/* CARDS (Login, forms, etc.) */
+/*------------------------------*/
+
+.card,
+.form-card,
+.login-card {
+  background: #FFFFFF;
+  max-width: 450px;
+  padding: 32px;
+  border-radius: 24px;
+  box-shadow: 0px 4px 6px -1px rgba(0,0,0,0.12), 0px 2px 4px -1px rgba(0,0,0,0.08);
+}
+
+/*------------------------------*/
+/* TRANSITIONS */
+/*------------------------------*/
+
+* {
+  transition: all 200ms ease-in-out;
 }

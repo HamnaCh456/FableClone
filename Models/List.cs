@@ -4,9 +4,10 @@
     namespace MyMvcAuthProject.Models  
     {  
         [Table("list")]  
-        public class List : BaseModel  
+        public class ReadingList : BaseModel  
         {  
             [PrimaryKey("list_id")]  
+            [Column("list_id")]
             public Guid ListId { get; set; }  
     
             [Column("user_id")]  
