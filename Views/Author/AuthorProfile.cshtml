@@ -1,256 +1,388 @@
 @model List<Book>
-<!DOCTYPE html> 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Author.Name - Author | Fable</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        :root {
-            --primary-green: #0d4d3d;
-        }
-        
-        body {
-            overflow: auto;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+@{
+    ViewData["Title"] = ViewBag.Author.Name + " - Author";
+}
 
-        /* Main Container */
-        .main-container {
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
-        
-        /* Left Section */
-        .left-section {
-            flex: 0 0 50%;
-            background: linear-gradient(135deg, var(--primary-green) 0%, #0a3d30 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+<style>
+    /* Scoped styles for Author Profile to fit inside _Layout */
+    .author-profile-container {
+        display: flex;
+        /* Calculate height to fit remaining space (viewport - topbar approx 75px) */
+        height: calc(100vh - 85px); 
+        /* Offset the parent padding (28px) to go edge-to-edge relative to content wrapper */
+        width: calc(100% + 56px);
+        margin: -28px;
+        overflow: hidden;
+        background: var(--bg-page, #F9F9F9);
+        border-radius: 12px;
+    }
+    
+    :root {
+        --primary-orange: #FA5D19;
+        --primary-black: #000000;
+        --text-primary: #262626;
+        --text-secondary: rgba(38, 38, 38, 0.6);
+        --bg-surface: #FFFFFF;
+        --border-color: rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Left Section */
+    .ap-left-section {
+        flex: 0 0 40%; /* Reduced width slightly to give more room to books */
+        background-color: var(--bg-surface);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0;
+        position: relative;
+        overflow: hidden; /* No scrolling on profile side */
+    }
+
+    /* Decorative Grid Background for Left Section */
+    .ap-left-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .ap-content-wrapper {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .ap-back-btn {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 0.6rem 1.2rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        z-index: 10;
+    }
+    
+    .ap-back-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        color: var(--primary-orange);
+        border-color: var(--primary-orange);
+    }
+
+    .ap-author-container {
+        text-align: center;
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .ap-author-image-wrapper {
+        position: relative;
+        margin-bottom: 2rem;
+        display: inline-block;
+    }
+
+    .ap-author-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--bg-surface);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .ap-author-image:hover {
+        transform: scale(1.02);
+    }
+
+    .ap-author-name {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        letter-spacing: -0.02em;
+        font-family: "Suisse Int'l", "Inter", sans-serif;
+    }
+
+    .ap-author-role {
+        font-size: 1rem;
+        color: var(--primary-orange);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background: rgba(250, 93, 25, 0.1);
+        padding: 6px 16px;
+        border-radius: 999px;
+        display: inline-block;
+        font-family: "Suisse Int'l", "Inter", sans-serif;
+    }
+
+    .ap-share-btn {
+        margin-top: 2rem; 
+        background: var(--primary-black);
+        border: none;
+        color: white;
+        width: 50px;
+        height: 50px; 
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .ap-share-btn:hover {
+        background: var(--primary-orange);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(250, 93, 25, 0.3);
+    }
+
+    /* Right Section */
+    .ap-right-section {
+        flex: 1;
+        background-color: var(--bg-page, #F9F9F9);
+        overflow-y: auto; /* Scroll ONLY the right section */
+        overflow-x: hidden;
+        padding: 0;
+    }
+    
+    .ap-right-section::-webkit-scrollbar {
+        width: 8px;
+    }
+    .ap-right-section::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .ap-right-section::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 4px;
+    }
+    .ap-right-section::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0,0,0,0.2);
+    }
+
+    /* Bio */
+    .ap-bio-section {
+        padding: 4rem 4rem 2rem 4rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .ap-section-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .ap-section-title {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0;
+        font-family: "Suisse Int'l", "Inter", sans-serif;
+    }
+    
+    .ap-section-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border-color);
+    }
+
+    .ap-bio-text {
+        line-height: 1.7;
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+        font-family: "Suisse Int'l", "Inter", sans-serif;
+    }
+
+    /* Books Section */
+    .ap-books-section {
+        padding: 2rem 4rem 4rem 4rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .ap-books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .ap-book-card {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        background: var(--bg-surface);
+        padding: 1rem;
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        height: 100%;
+        align-items: center;
+        color: inherit;
+    }
+    
+    .ap-book-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        border-color: rgba(250, 93, 25, 0.3);
+    }
+
+    .ap-book-cover-wrapper {
+        width: 80px;
+        height: 120px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .ap-book-cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .ap-book-card:hover .ap-book-cover {
+        transform: scale(1.05); 
+    }
+
+    .ap-book-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        min-width: 0; 
+    }
+
+    .ap-book-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: "Suisse Int'l", "Inter", sans-serif;
+    }
+
+    .ap-book-author {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.75rem;
+        font-family: "Suisse Int'l", "Inter", sans-serif;
+    }
+    
+    @@media (max-width: 992px) {
+        .author-profile-container {
             flex-direction: column;
-            padding: 0;
-            position: relative;
-            border-top-right-radius: 60px;
-        }
-
-        .back-btn {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .author-container {
-            text-align: center;
+            height: auto;
             width: 100%;
+            margin: 0;
+            overflow-y: visible;
         }
-
-        .author-image {
-            width: 190px; /* slightly larger */
-            height: 190px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1.5rem;
-            border: 5px solid rgba(255,255,255,0.2);
+        .ap-left-section {
+            padding: 4rem 1rem 2rem 1rem;
+            flex: none;
+            border-right: none;
+            border-bottom: 1px solid var(--border-color);
+            overflow: visible;
         }
-
-        .author-name {
-            font-size: 2.7rem; /* slightly larger */
-            font-weight: 300;
-            margin-bottom: 0.5rem;
-            font-family: 'Georgia', serif;
+        .ap-right-section {
+            overflow: visible;
         }
-
-        .author-role {
-            font-size: 1.1rem; /* slightly larger */
-            opacity: 0.9;
+        .ap-bio-section, .ap-books-section {
+            padding: 2rem 1.5rem;
         }
+    }
+</style>
 
-        .share-btn {
-            margin-top: 1.7rem; 
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 58px;  /* slightly larger */
-            height: 58px; 
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+<div class="author-profile-container">
 
-        /* Right Section */
-        .right-section {
-            flex: 1;
-            background: white;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
+    <!-- LEFT (Fixed) -->
+    <div class="ap-left-section">
+        <div class="ap-content-wrapper">
+           
 
-        .right-section::-webkit-scrollbar {
-            width: 12px;
-        }
-        .right-section::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 6px;
-        }
-
-        /* Bio */
-        .bio-section {
-            padding: 2.5rem;
-            flex-shrink: 0;
-        }
-
-        .bio-section h2,
-        .books-section h2 {
-            color: #999;
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-        }
-
-        .bio-section p {
-            line-height: 1.8;
-            color: #333;
-        }
-
-        /* Books Section */
-        .books-section {
-            padding: 1.5rem 2.5rem 3rem 2.5rem;
-            flex-shrink: 0;
-        }
-        
-        .books-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .book-card {
-            display: flex;
-            flex-direction: row;
-            gap: 12px;
-            width: 100%;
-            text-decoration: none;
-        }
-
-        .book-cover-wrapper {
-            width: 120px;
-            height: 180px;
-            overflow: hidden;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .book-cover {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .book-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .book-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #333;
-            text-decoration: none;
-        }
-
-        .book-author {
-            font-size: 0.9rem;
-            color: #666;
-            text-decoration: none;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="main-container">
-
-        <!-- LEFT -->
-        <div class="left-section">
-
-            <button class="back-btn">
-                <i class="fas fa-chevron-left"></i> Back
-            </button>
-
-            <div class="author-container">
-                <img src="@ViewBag.Author.AuthorImage" 
-                     class="author-image" 
-                     alt="@ViewBag.Author.Name">
-                <h1 class="author-name">@ViewBag.Author.Name</h1>
-                <p class="author-role">Author</p>
-            </div>
-
-            <button class="share-btn">
-                <i class="fas fa-share-alt"></i>
-            </button>
-        </div>
-
-        <!-- RIGHT -->
-        <div class="right-section">
-
-            <div class="bio-section">
-                <h2>Bio</h2>
-                <p>
-                    @ViewBag.Author.Bio
-                </p>
-            </div>
-
-            <div class="books-section">
-                <h2>@ViewBag.Author.Name Books</h2>
-
-                <div class="books-grid">
-                 @foreach (var book in Model)
-                 {
-                    <!-- Book 1 -->
-                    <a href="#" class="book-card">
-                        <div class="book-cover-wrapper">
-                            <img src=@book.BookURL class="book-cover">
-                        </div>
-                        <div class="book-info">
-                            <div class="book-title">@book.Title</div>
-                            <div class="book-author">@ViewBag.Author.Name</div>
-                        </div>
-                    </a>
-                 }
-
+            <div class="ap-author-container">
+                <div class="ap-author-image-wrapper">
+                    <img src="@ViewBag.Author.AuthorImage" 
+                         class="ap-author-image" 
+                         alt="@ViewBag.Author.Name">
                 </div>
+                <h1 class="ap-author-name">@ViewBag.Author.Name</h1>
+                <p class="ap-author-role">Author</p>
+                
             </div>
-
         </div>
     </div>
 
-</body>
-</html>
+    <!-- RIGHT (Scrollable) -->
+    <div class="ap-right-section">
+
+        <div class="ap-bio-section">
+            <div class="ap-section-header">
+                <h2 class="ap-section-title">Biography</h2>
+                <div class="ap-section-line"></div>
+            </div>
+            <p class="ap-bio-text">
+                @ViewBag.Author.Bio
+            </p>
+        </div>
+
+        <div class="ap-books-section">
+            <div class="ap-section-header">
+                <h2 class="ap-section-title">Books by @ViewBag.Author.Name</h2>
+                <div class="ap-section-line"></div>
+            </div>
+
+            <div class="ap-books-grid">
+             @foreach (var book in Model)
+             {
+                <!-- Book Card -->
+                <a href="@Url.Action("Index", "Book", new { name = book.Title })" class="ap-book-card">
+                    <div class="ap-book-cover-wrapper">
+                        <img src="@book.BookURL" class="ap-book-cover" alt="@book.Title">
+                    </div>
+                    <div class="ap-book-info">
+                        <div class="ap-book-title" title="@book.Title">@book.Title</div>
+                        <div class="ap-book-author">@ViewBag.Author.Name</div>
+                    </div>
+                </a>
+             }
+            </div>
+        </div>
+
+    </div>
+</div>

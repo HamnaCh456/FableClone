@@ -82,6 +82,7 @@
         margin-bottom: 20px;
         border: 2px solid var(--fc-surface);
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        object-fit: cover;
     }
 
     .fc-name {
@@ -315,9 +316,14 @@
     </div>
 
     <div class="fc-card">
-        <div class="fc-avatar">
-            🦋
-        </div>
+        @if (!string.IsNullOrEmpty(Model.UserImage))
+        {
+            <img src="@Model.UserImage" alt="Profile Picture" class="fc-avatar" />
+        }
+        else
+        {
+            <img src="https://phqjkkhovqndiyyuwljc.supabase.co/storage/v1/object/public/UserBucket/user_profile_image.jpeg" alt="Default Profile Picture" class="fc-avatar" />
+        }
         
         <h2 class="fc-name">@Model.DisplayName</h2>
         
@@ -361,7 +367,14 @@
     <div class="fc-panel-content">
         <form asp-action="EditProfile" asp-controller="Profile" method="post">
             <div class="fc-edit-avatar-container">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="fc-edit-avatar-img">
+                @if (!string.IsNullOrEmpty(Model.UserImage))
+                {
+                    <img src="@Model.UserImage" class="fc-edit-avatar-img" alt="Profile Picture">
+                }
+                else
+                {
+                    <img src="https://phqjkkhovqndiyyuwljc.supabase.co/storage/v1/object/public/UserBucket/user_profile_image.jpeg" class="fc-edit-avatar-img" alt="Default Profile Picture">
+                }
                 <a href="#" class="fc-link">Change profile photo</a>
             </div>
 

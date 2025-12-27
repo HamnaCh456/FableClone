@@ -55,6 +55,17 @@ namespace MyMvcAuthProject.Repositories
             return result.Models; 
         }
 
+        public async Task<List<Book>> GetAllBooks()
+        {
+            var result = await _supabase
+                .From<Book>()
+                .Select("book_id, title, price, rating, description, label, author_id, BookURL")
+                .Get();
+
+            return result.Models;
+        }
+
+
         public async Task<Book> InsertBook(Book book)
         {
             book.BookId = Guid.NewGuid();

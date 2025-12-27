@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "g5j4lcpPZhDP1wngUlOBG3JVZ9WXxbx67ojePDtfnWU=",
+  "Hash": "ItraD/QOmgKnIy6y0yPUKHb9iM39PHURt76nmr42cmk=",
   "Source": "MyMvcAuthProject",
   "BasePath": "_content/MyMvcAuthProject",
   "Mode": "Default",
@@ -1252,12 +1252,12 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\loginIllustration.svg",
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\loginIllustration.webp",
       "SourceId": "MyMvcAuthProject",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\",
       "BasePath": "_content/MyMvcAuthProject",
-      "RelativePath": "Images/loginIllustration.svg",
+      "RelativePath": "Images/loginIllustration.webp",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1268,7 +1268,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Images\\loginIllustration.svg"
+      "OriginalItemSpec": "wwwroot\\Images\\loginIllustration.webp"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\logo.png",
@@ -1288,6 +1288,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\logo.png"
+    },
+    {
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\previous.svg",
+      "SourceId": "MyMvcAuthProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\",
+      "BasePath": "_content/MyMvcAuthProject",
+      "RelativePath": "Images/previous.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\previous.svg"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\js\\author_loader.js",

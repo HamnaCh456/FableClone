@@ -81,37 +81,14 @@
         .sidebar-header {
             display: flex;
             align-items: center;
-            padding: 20px 18px;
-            gap: 14px;
+            padding: 0 24px;
+            gap: 12px;
             border-bottom: 1px solid var(--border);
+            height: 72px;
             min-height: 72px;
         }
 
-        .sidebar-toggle-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            cursor: pointer;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--radius-sm);
-            transition: all 200ms ease;
-            flex-shrink: 0;
-            width: 36px;
-            height: 36px;
-        }
 
-        .sidebar-toggle-btn:hover {
-            background: var(--bg-page);
-            border-color: rgba(0, 0, 0, 0.12);
-            transform: scale(1.05);
-        }
-
-        .sidebar-toggle-btn:active {
-            transform: scale(0.95);
-        }
 
         .brand-link {
             color: var(--text-primary);
@@ -128,8 +105,7 @@
         }
 
         .brand-link::before {
-            content: "📚";
-            font-size: 24px;
+            display: none;
         }
 
         .sidebar.collapsed .brand-link {
@@ -229,6 +205,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            min-width: 0;
         }
 
         .sidebar.collapsed ~ .main-content {
@@ -238,7 +215,8 @@
         .topbar {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
-            padding: 16px 28px;
+            padding: 0 28px;
+            height: 72px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -511,16 +489,9 @@
         <!-- Sidebar -->
         <nav class="sidebar" id="appSidebar">
             <div class="sidebar-header">
-                <button class="sidebar-toggle-btn" id="sidebarToggle" title="Toggle Sidebar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
-
                 <a class="brand-link" asp-area="" asp-controller="Home" asp-action="Index">
-                    <span>Auth</span>
+                    <img src="~/Images/logo.png" alt="Dataan Hub" height="32" />
+                    <span>Dastaan Hub</span>
                 </a>
             </div>
 
@@ -627,17 +598,12 @@
         // ==================== SIDEBAR TOGGLE ====================
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('appSidebar');
-            const toggleBtn = document.getElementById('sidebarToggle');
+            // Sidebar toggle functionality removed as button was removed
             
             const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
             if (isCollapsed) {
                 sidebar.classList.add('collapsed');
             }
-            
-            toggleBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('collapsed');
-                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-            });
 
             const notificationBtn = document.getElementById('notificationButton');
             const notificationPanel = document.getElementById('notificationPanel');

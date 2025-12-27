@@ -5,12 +5,16 @@
       "PackagePath": "staticwebassets\\MyMvcAuthProject.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\loginIllustration.svg",
-      "PackagePath": "staticwebassets\\Images\\loginIllustration.svg"
+      "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\loginIllustration.webp",
+      "PackagePath": "staticwebassets\\Images\\loginIllustration.webp"
     },
     {
       "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\logo.png",
       "PackagePath": "staticwebassets\\Images\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\Images\\previous.svg",
+      "PackagePath": "staticwebassets\\Images\\previous.svg"
     },
     {
       "Id": "C:\\Users\\LENOVO\\Desktop\\Web_technologies\\smesterProjectAuthentication\\MyMvcAuthProject\\wwwroot\\css\\modern.css",

@@ -74,6 +74,11 @@ var supabaseClient = new Supabase.Client(url, key, options);
 await supabaseClient.InitializeAsync();
 builder.Services.AddSingleton(supabaseClient);
 
+// Register Repositories
+builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<AuthorRepository>();
+builder.Services.AddScoped<PostRepository>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
