@@ -7,37 +7,26 @@ using MyMvcAuthProject.Repositories;
 using MyMvcAuthProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using MyMvcAuthProject.Models;
-using MyMvcAuthProject.Data;
-using Supabase;
-using MyMvcAuthProject.Repositories;
-using MyMvcAuthProject.ViewModels;
+
 
 namespace MyMvcAuthProject.Controllers
 {
     public class BookController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly Supabase.Client _supabase;
 
-        public BookController(UserManager<IdentityUser> userManager)
+        public BookController(UserManager<IdentityUser> userManager, Supabase.Client supabase)
         {
             _userManager = userManager;
+            _supabase = supabase;
         }
         [HttpGet("Book/{name?}")]
         public async Task<IActionResult> Index(string? name = null)
         {
-            var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
-            var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
 
-            var options = new SupabaseOptions
-            {
-                AutoConnectRealtime = true
-            };
 
-            var supabase = new Client(url, key, options);
-            await supabase.InitializeAsync();
-
-            var bookRepository = new BookRepository(supabase);
+            var bookRepository = new BookRepository(_supabase);
             
             Book book = null;
             if (!string.IsNullOrEmpty(name))
@@ -60,15 +49,15 @@ namespace MyMvcAuthProject.Controllers
                 return NotFound();
             }
 
-            var authorRepositorry = new AuthorRepository(supabase);
+            var authorRepositorry = new AuthorRepository(_supabase);
             var author = await authorRepositorry.GetAuthorByBookId(book.BookId); // Use fetched book's ID
             ViewBag.Author = author;
 
-            var reviewRepository = new ReviewRepository(supabase);
+            var reviewRepository = new ReviewRepository(_supabase);
             var reviews = await reviewRepository.GetReviewsByBookId(book.BookId); // Use fetched book's ID
             ViewBag.Reviews = reviews;
 
-            var userProfileRepository = new UserProfileRepository(supabase);
+            var userProfileRepository = new UserProfileRepository(_supabase);
             var userDisplayNames = new Dictionary<string, string>();
             var userImages = new Dictionary<string, string>();
 
@@ -95,18 +84,9 @@ namespace MyMvcAuthProject.Controllers
         [Route("Book/Store")]
         public async Task<IActionResult> Store(string name)
         {
-            var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
-            var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
 
-            var options = new SupabaseOptions
-            {
-                AutoConnectRealtime = true
-            };
 
-            var supabase = new Client(url, key, options);
-            await supabase.InitializeAsync();
-
-            var bookRepository = new BookRepository(supabase);
+            var bookRepository = new BookRepository(_supabase);
             var books = await bookRepository.SearchBooksByName(name);
             return PartialView("_BookSearchResults", books);
         }
@@ -120,18 +100,9 @@ namespace MyMvcAuthProject.Controllers
         [HttpGet("Book/ExploreBooks")]
         public async Task<IActionResult> ExploreBooks()
         {
-            var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
-            var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
 
-            var options = new SupabaseOptions
-            {
-                AutoConnectRealtime = true
-            };
 
-            var supabase = new Client(url, key, options);
-            await supabase.InitializeAsync();
-
-            var bookRepository = new BookRepository(supabase);
+            var bookRepository = new BookRepository(_supabase);
             var FictionBooks = await bookRepository.GetBooksByLabel("Fiction");
             ViewBag.FictionBooks = FictionBooks;
             var PhilosophyBooks = await bookRepository.GetBooksByLabel("Philosophy");
@@ -148,19 +119,10 @@ namespace MyMvcAuthProject.Controllers
         [HttpPost("Book/AddBookToList")]
         public async Task<IActionResult> AddBookToList(Guid bookId, string listName)
         {
-             var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
-             var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
-             
-             var options = new SupabaseOptions
-             {
-                 AutoConnectRealtime = true
-             };
-             
-             var supabase = new Client(url, key, options);
-             await supabase.InitializeAsync();
+
              
              var userId = _userManager.GetUserId(User);
-             var userProfileRepository = new UserProfileRepository(supabase);
+             var userProfileRepository = new UserProfileRepository(_supabase);
              
              try
              {

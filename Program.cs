@@ -64,8 +64,8 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddSignalR();
 
 // Register Supabase Client as a singleton service
-var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
-var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
+var url = Environment.GetEnvironmentVariable("SUPABASE_URL");
+var key = Environment.GetEnvironmentVariable("SUPABASE_KEY");
 var options = new SupabaseOptions
 {
     AutoConnectRealtime = true

@@ -344,7 +344,7 @@
                 {
                     <h2>@ViewBag.FeaturedBook.Title</h2>
                     <p>@(string.IsNullOrEmpty(ViewBag.FeaturedBook.Description) ? "An amazing book waiting to be discovered." : (ViewBag.FeaturedBook.Description.Length > 120 ? ViewBag.FeaturedBook.Description.Substring(0, 120) + "..." : ViewBag.FeaturedBook.Description))</p>
-                    <a href="@Url.Action("Index", "Book", new { bookId = ViewBag.FeaturedBook.BookId })" class="btn-hero">Read Now</a>
+                    <a href="@Url.Action("Index", "Book", new { name = ViewBag.FeaturedBook.Title })" class="btn-hero">Read Now</a>
                 }
                 else
                 {
@@ -365,7 +365,7 @@
                     foreach (var book in ViewBag.Books)
                     {
                         <div class="book-card">
-                            <a href="@Url.Action("Index", "Book", new { bookId = book.BookId })">
+                            <a href="@Url.Action("Index", "Book", new { name = book.Title })">
                                 <img class="book-cover" 
                                      src="@(string.IsNullOrEmpty(book.BookURL) ? "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=400&fit=crop" : book.BookURL)" 
                                      alt="@book.Title">
@@ -389,14 +389,14 @@
                 {
                     foreach (var post in ViewBag.Posts)
                     {
-                        <div class="post-card">
+                        <a href="@Url.Action("Index", "Post")" class="post-card" style="text-decoration: none; display: block; height: 100%;">
                             <div class="post-header">
                                 <span class="post-category">Community</span>
                                 <span class="post-time">Recent</span>
                             </div>
                             <h5>Post from Community</h5>
                             <p>@(post.PostContent.Length > 150 ? post.PostContent.Substring(0, 150) + "..." : post.PostContent)</p>
-                        </div>
+                        </a>
                     }
                 }
                 else

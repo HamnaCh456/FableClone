@@ -15,23 +15,18 @@ namespace MyMvcAuthProject.Controllers
         private readonly Supabase.Client _supabase;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public ReviewController(UserManager<IdentityUser> userManager)
+        public ReviewController(UserManager<IdentityUser> userManager, Supabase.Client supabase)
         {
             _userManager = userManager;
-            var url = "https://phqjkkhovqndiyyuwljc.supabase.co";
-            var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocWpra2hvdnFuZGl5eXV3bGpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzExNDc0MywiZXhwIjoyMDc4NjkwNzQzfQ.ZPEqacRXPHk1FdJPMfbGohMyTW0oIpnxuPrzQePlLVI";
-
-            var options = new SupabaseOptions
-            {
-                AutoConnectRealtime = true
-            };
-
-            _supabase = new Supabase.Client(url, key, options);
+            _supabase = supabase;
         }
 
+        // Supabase client is already initialized via DI
         private async Task EnsureSupabaseInitialized()
         {
-            await _supabase.InitializeAsync();
+            // No-op or remove entirely, but keeping signature for now to minimize changes if other methods call it
+            // Ideally should be removed.
+            await Task.CompletedTask;
         }
 
 
